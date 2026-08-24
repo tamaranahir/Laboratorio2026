@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Registro de Artesano | Poncho Digital</title>
+</head>
+<body>
+   <header>
+       <h1>Poncho Digital</h1>
+       <p><em>Portal Oficial de la Fiesta Nacional e Internacional del Poncho</em></p>
+   </header>
+
+
+   <nav>
+       <ul>
+           <li><a href="index.html" title="Ir a la Portada de Inicio">Inicio</a></li>
+           <li><a href="registro-artesano.html" title="Formulario de inscripción para artesanos">Postularse como artesano</a></li>
+           <li><a href="gestion-productos.html" title="Administrar catálogo de productos del artesano">Gestionar mis productos</a></li>
+       </ul>
+   </nav>
+
+
+   <main>
+       <section id="registro-solicitud">
+           <h2>Formulario de Solicitud de Participación</h2>
+           <p>
+               Complete el siguiente formulario con sus datos personales y los de su emprendimiento. Una vez enviado, el Administrador evaluará su postulación para habilitar su participación en la feria.
+           </p>
+
+
+           <form action="solicitud-enviada.html" method="post" enctype="multipart/form-data">
+
+
+               <!-- Grupo 1: Datos de contacto del artesano -->
+               <fieldset>
+                   <legend>Datos Personales del Artesano</legend>
+                   <p>
+                       <label for="nombre_completo">Apellido y Nombre:</label><br>
+                       <input type="text" id="nombre_completo" name="nombre_completo" maxlength="100" placeholder="Escriba su nombre completo" required>
+                   </p>
+                   <p>
+                       <label for="dni">DNI (8 dígitos):</label><br>
+                       <input type="text" id="dni" name="dni" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" placeholder="Ej: 45678901" required>
+                   </p>
+                   <p>
+                       <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
+                       <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                   </p>
+                   <p>
+                       <label for="correo_electronico">Correo Electrónico:</label><br>
+                       <input type="email" id="correo_electronico" name="correo_electronico" placeholder="usuario@ejemplo.com" required>
+                   </p>
+                   <p>
+                       <label for="telefono">Teléfono (con código de área sin 0 ni 15):</label><br>
+                       <input type="tel" id="telefono" name="telefono" placeholder="Ej: 3834123456" required>
+                   </p>
+                   <p>
+                       <label for="localidad">Localidad de Origen:</label><br>
+                       <input type="text" id="localidad" name="localidad" placeholder="Ej: Belén, Tinogasta, Andalgalá..." required>
+                   </p>
+                   <p>
+                       <label>Sexo:</label><br>
+                       <label>
+                           <input type="radio" name="sexo" value="Femenino"> Femenino
+                       </label>
+                       <label>
+                           <input type="radio" name="sexo" value="Masculino"> Masculino
+                       </label>
+                       <label>
+                           <input type="radio" name="sexo" value="No binario"> No binario
+                       </label>
+                   </p>
+               </fieldset>
+               <!-- Grupo 2: Información del emprendimiento -->
+               <fieldset>
+                   <legend>Datos del Emprendimiento</legend>
+                   <p>
+                       <label for="nombre_marca">Nombre del Emprendimiento o Marca:</label><br>
+                       <input type="text" id="nombre_marca" name="nombre_marca" placeholder="Ej: Tejidos El Poncho" required>
+                   </p>
+                   <p>
+                       <label for="rubro">Rubro o Especialidad:</label><br>
+                       <select id="rubro" name="rubro" required>
+                           <option value="">-- Seleccione un rubro --</option>
+                           <optgroup label="Artesanías">
+                               <option value="textil">Textil (Hilado, Telar, Vicuña)</option>
+                               <option value="ceramica">Alfarería y Cerámica</option>
+                               <option value="plateria">Platería y Metalurgia</option>
+                               <option value="madera">Talla en Madera</option>
+                           </optgroup>
+                           <optgroup label="Productos Regionales">
+                               <option value="gastronomia">Gastronomía y Dulces</option>
+                               <option value="bodegas">Vinos y Licores</option>
+                               <option value="aceites">Aceites y Conservas</option>
+                           </optgroup>
+                       </select>
+                   </p>
+                   <p>
+                       <label for="descripcion_tecnicas">Descripción de Técnicas y Materias Primas:</label><br>
+                       <textarea id="descripcion_tecnicas" name="descripcion_tecnicas" rows="5" cols="50" placeholder="Describa brevemente cómo elabora sus piezas y qué materiales utiliza..." required></textarea>
+                   </p>
+                   <p>
+                       <label for="foto_muestra">Foto de los productos:</label><br>
+                       <input type="file" id="foto_muestra" name="foto_muestra" accept="image/*" multiple required>
+                   </p>
+               </fieldset>
+
+
+               <p>
+                   <label>
+                       <input type="checkbox" id="declaracion" name="declaracion" required>
+                       Declaro bajo juramento que los productos a exponer son de elaboración propia y artesanal.
+                   </label>
+               </p>
+
+
+               <p>
+                   <button type="submit">Enviar Solicitud</button>
+                   <button type="reset">Limpiar Formulario</button>
+               </p>
+           </form>
+       </section>
+   </main>
+
+
+   <footer>
+       <p>Fiesta Nacional e Internacional del Poncho – Catamarca &copy; 2026</p>
+       <p>
+           <strong>Desarrolladores:</strong> Contrera Sofia Candela, Leiva Tamara Nahir, Robledo Maria Valentina <br>
+           <strong>Cátedra:</strong> Programación III | Universidad Nacional de Catamarca
+       </p>
+       <hr>
+       <p>
+           <strong>¡Seguinos en nuestras redes!:</strong>
+           <a href="https://www.facebook.com/fiestanacionaldelponcho" target="_blank">Facebook</a> |
+           <a href="https://www.instagram.com/fiestanacionaldelponcho/" target="_blank">Instagram</a> |
+           <a href="https://www.youtube.com/@culturacatamarca" target="_blank">YouTube</a> |
+           <a href="https://www.tiktok.com/@fiestanacionaldelponcho" target="_blank">TikTok</a>
+       </p>
+   </footer>
+</body>
