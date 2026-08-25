@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Gestión de Productos | Poncho Digital</title>
+</head>
+<body>
+
+    <header>
+        <h1>Poncho Digital</h1>
+        <p>Portal Oficial de la 55° Fiesta Nacional e Internacional del Poncho - Edición 2026</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="registro-artesano.html">Postularse como Artesano</a></li>
+            <li><a href="productos.html">Gestionar mis Productos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+
+        <!-- CONSULTA, MODIFICACIÓN Y ELIMINACIÓN -->
+        <section id="catalogo-productos">
+            <h2>Mi Catálogo de Productos Textiles</h2>
+            <p>Gestioná las piezas tejidas a telar que tenés publicadas actualmente en tu stand virtual de la Fiesta del Poncho.</p>
+
+            <table border="1">
+                <caption>Catálogo Activo</caption>
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Producto</th>
+                        <th>Descripción Técnica</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="poncho_producto.png" alt="Poncho de lana de Vicuña de Belén" width="210">
+                        </td>
+                        <td><strong>Poncho de Vicuña Tradicional</strong></td>
+                        <td>Tejido en telar criollo de dos pedales con lana pura de vicuña hilada a mano. Terminación con flecos finos y certificado de origen de Belén.</td>
+                        <td>$450.000,00</td>
+                        <td>2</td>
+                        <td>Activo</td>
+                        <td>
+                            <button type="button">Modificar</button>
+                            <button type="button">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="manta_llamachocolate.png" alt="Manta de lana de llama rústica" width="210">
+                        </td>
+                        <td><strong>Manta de Llama Rústica</strong></td>
+                        <td>Manta abrigada tejida a mano con fibra natural de llama, sin teñir (colores marrones y visón naturales de la fibra). Detalle de flecos criollos.</td>
+                        <td>$180.000,00</td>
+                        <td>4</td>
+                        <td>Activo</td>
+                        <td>
+                            <button type="button">Modificar</button>
+                            <button type="button">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="Bufandón_De_Lana_Oveja.png" alt="Bufanda de lana de oveja hilada" width="210">
+                        </td>
+                        <td><strong>Bufanda de Lana de Oveja Hilada</strong></td>
+                        <td>Bufanda de abrigo tejida a dos agujas con lana de oveja seleccionada e hilada a mano, teñida artesanalmente con tintes vegetales de jarilla.</td>
+                        <td>$35.000,00</td>
+                        <td>15</td>
+                        <td>Activo</td>
+                        <td>
+                            <button type="button">Modificar</button>
+                            <button type="button">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <br><hr><br>
+
+        <!-- FORMULARIO DE ALTA DE PRODUCTO -->
+        <section id="publicar-producto">
+            <h2>Publicar un Nuevo Producto Textil</h2>
+            <p>Añadí una nueva pieza tejida a tu catálogo oficial. Al estar registrado en el rubro Textil, tu producto se listará automáticamente en esa categoría del portal público.</p>
+
+            <form action="productos.html" method="post" enctype="multipart/form-data">
+
+                <fieldset>
+                    <legend>Detalles Técnicos y Comerciales de la Pieza</legend>
+
+                    <p>
+                        <label for="nombre_producto">Nombre de la Artesanía:</label><br>
+                        <input type="text" id="nombre_producto" name="nombre_producto" placeholder="Ej: Tapiz Rústico de Oveja" maxlength="100" required>
+                    </p>
+
+                    <p>
+                        <label for="precio">Precio de Venta:</label><br>
+                        <input type="number" id="precio" name="precio" placeholder="Ej: 14500.00" min="1.00" step="0.01" required>
+                    </p>
+
+                    <p>
+                        <label for="stock">Cantidad de Stock Inicial:</label><br>
+                        <input type="number" id="stock" name="stock" placeholder="Ej: 5" min="1" max="1000" required>
+                    </p>
+
+                    <p>
+                        <label for="descripcion">Descripción de las Técnicas y Materiales:</label><br>
+                        <textarea id="descripcion" name="descripcion" rows="5" cols="60" placeholder="Detallá el tipo de telar utilizado, el origen de la lana, si usaste tintes naturales y el tiempo que llevó elaborar la pieza..." required></textarea>
+                    </p>
+
+                    <p>
+                        <label for="foto_producto">Fotografía de Exhibición del Producto:</label><br>
+                        <input type="file" id="foto_producto" name="foto_producto" accept="image/*" required>
+                    </p>
+
+                    <p>
+                        <input type="checkbox" id="esta_activo" name="esta_activo" value="true" checked>
+                        <label for="esta_activo">¿Publicar inmediatamente en el portal web (Visible al público)?</label>
+                    </p>
+
+                </fieldset>
+
+                <br>
+
+                <p>
+                    <button type="submit">Guardar y Publicar Artesanía</button>
+                    <button type="reset">Restablecer Campos</button>
+                </p>
+
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Fiesta Nacional e Internacional del Poncho – Catamarca &copy; 2026</p>
+        <p>
+            <strong>Desarrolladores:</strong> Contrera Sofia Candela, Leiva Tamara Nahir, Robledo Maria Valentina <br>
+            <strong>Cátedra:</strong> Programación III | Universidad Nacional de Catamarca
+        </p>
+        <hr>
+        <p>
+            <strong>¡Seguinos en nuestras redes!:</strong>
+            <a href="https://www.facebook.com/fiestanacionaldelponcho" target="_blank">Facebook</a> |
+            <a href="https://www.instagram.com/fiestanacionaldelponcho/" target="_blank">Instagram</a> |
+            <a href="https://www.youtube.com/@culturacatamarca" target="_blank">YouTube</a> |
+            <a href="https://www.tiktok.com/@fiestanacionaldelponcho" target="_blank">TikTok</a>
+        </p>
+    </footer>
+
+</body>
+</html>
