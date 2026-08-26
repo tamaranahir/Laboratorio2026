@@ -53,11 +53,11 @@
                    </p>
                    <p>
                        <label for="telefono">Teléfono (con código de área sin 0 ni 15):</label><br>
-                       <input type="tel" id="telefono" name="telefono" placeholder="Ej: 3834123456" required>
+                       <input type="tel" id="telefono" name="telefono" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="Ej: 3834123456" required>
                    </p>
                    <p>
                        <label for="localidad">Localidad de Origen:</label><br>
-                       <input type="text" id="localidad" name="localidad" placeholder="Ej: Belén, Tinogasta, Andalgalá..." required>
+                       <input type="text" id="localidad" name="localidad" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+" maxlength="100" placeholder="Ej: Belén, Tinogasta, Andalgalá..." required>
                    </p>
                    <p>
                        <label>Sexo:</label><br>
