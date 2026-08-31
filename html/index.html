@@ -3,68 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Inicio | Poncho Digital</title>
+
+    <!-- Vinculamos Bootstrap 5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Vinculamos archivo CSS externo -->
+    <link rel="stylesheet" href="../css/estilos.css">
+    <!-- Script de Bootstrap 5 para que funcione el botón desplegable -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
-    <header>
-        <h1>Poncho Digital</h1>
-        <p><em>Portal Oficial de la Fiesta Nacional e Internacional del Poncho</em></p>
+
+    <!-- Cabecera Institucional responsiva -->
+    <header id="header-poncho" class="py-5 text-center" >
+        <div class="contenedor-flexible text-center">
+            <img src="../img/poncho-logo.png" alt="Logo" width="250">
+            <div class="texto-derecha">
+                <div class="container">
+                    <h1>Poncho Digital</h1>
+                    <p class="mb-0"><em>Portal Oficial de la Fiesta Nacional e Internacional del Poncho</em></p>
+                    <p class="mb-0"><em>Edición 2026</em></p>
+                </div>
+            </div>
+        </div>
     </header>
-    <nav>
-        <ul>
-            <li><a href="index.html" title="Ir a la Portada de Inicio">Inicio</a></li>
-            <li><a href="registro-artesano.html" title="Formulario de inscripción para artesanos">Postularse como artesano</a></li>
-            <li><a href="gestion-productos.html" title="Administrar catálogo de productos del artesano">Gestionar mis productos</a></li>
-        </ul>
+
+    <!-- Menú de la Portada - Bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-poncho sticky-top py-2">
+        <div class="container">
+            <button class="navbar-toggler btn-menu" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion" aria-controls="menuNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="menuNavegacion">
+                <ul class="navbar-nav gap-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html" title="Ir a la Portada de Inicio">Inicio</a></li>
+                    <!-- Enlaces internos con anclas (scroll suave local) -->
+                    <li class="nav-item"><a class="nav-link" href="#bienvenida" title="Desplazarse a Bienvenidos">Bienvenidos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experiencias" title="Desplazarse a Experiencias">Experiencias</a></li>
+                    <!-- Enlaces externos a las subpáginas  ya creadas-->
+                    <li class="nav-item"><a class="nav-link" href="registro-artesano.html" title="Formulario de inscripción para artesanos">Postularse como artesano</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html" title="Administrar catálogo de productos del artesano">Gestionar mis productos</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    <main>
-        <section id="bienvenida">
-            <h2>Bienvenidos a la Edición Virtual de la Fiesta Nacional del Poncho</h2>
-            <figure>
-                    <img src="poncho.png" alt="Logo Poncho Digital" width="250">
-                    <figcaption>
-                        La Fiesta Nacional e Internacional del Poncho celebra las manos creadoras de Catamarca.
-                    </figcaption>
-            </figure>
-            <p>
-                <strong>Poncho Digital</strong> es la plataforma oficial diseñada para conectar de manera dinámica a artesanos, productores regionales y visitantes de todo el mundo.
-            </p>
-            <blockquote>
-                <p>
-                    <em>"Las manos expresan emociones a través de su lenguaje no verbal, reflejando estados internos del alma mediante sentimientos y actitudes que luego serán canalizados en trabajos, en obras. Manos que tejen, manos que moldean la arcilla y ejecutan instrumentos... Esas son nuestras herramientas; las mismas que nos convierten en seres creativos y mágicos."</em>
-                </p>
-            </blockquote>
-            <p>
-                Este año, del <strong>17 al 26 de julio de 2026</strong>, el Predio Ferial Catamarca volverá a vestirse de fiesta para afirmar la identidad, el diseño, la gastronomía y las expresiones artísticas del folklore y la danza.
-            </p>
-        </section>
 
-        <section id="experiencias">
-            <h2>Viví la Experiencia del Poncho 2026</h2>
-            <p>
-                Conocé las principales propuestas y espacios que componen nuestra tradicional celebración
-            </p>
-            <article>
-                <h3>Pabellones de Artesanías</h3>
-                <p>El corazón de la feria. Un espacio único para admirar y adquirir obras maestras textiles, cerámicas, de platería y madera talladas por las manos de destacados artesanos nacionales e internacionales.</p>
-            </article>
 
-        </section>
+
+     <!-- Contenido Principal -->
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div>
+
+                <!-- Sección Bienvenida -->
+                <section id="bienvenida" class="card-poncho">
+                    <h2 class="mb-4 text-center">Bienvenidos a la Edición Virtual de la Fiesta Nacional del Poncho</h2>
+
+                    <figure class="my-4">
+                        <img src="../img/entrada-poncho.png" alt="Ingreso al poncho" class="img-fluid rounded">
+                        <figcaption class="text-center text-muted small mt-3">
+                            Realización de la 55º Fiesta Nacional e Internacional del Poncho.
+                        </figcaption>
+                    </figure>
+
+                    <blockquote class="blockquote px-4 py-3 border-start border-4 border-warning bg-light rounded text-start">
+                        <p class="h5 mb-0">
+                            <em>"Las manos expresan emociones a través de su lenguaje no verbal, reflejando estados internos del alma mediante sentimientos y actitudes que luego serán canalizados en trabajos, en obras. Manos que tejen, manos que moldean la arcilla y ejecutan instrumentos... Esas son nuestras herramientas; las mismas que nos convierten en seres creadivos y mágicos."</em>
+                        </p>
+                    </blockquote>
+
+                    <p class="lead">
+                        Este año, del <strong>17 al 26 de julio de 2026</strong>, el Predio Ferial Catamarca volverá a vestirse de fiesta para afirmar la identidad, el diseño, la gastronomía y las expresiones artísticas del folklore y la danza.
+                    </p>
+
+                    <p class="lead">
+                        Poncho Digital es la plataforma oficial diseñada para conectar de manera dinámica a artesanos, productores regionales y visitantes de todo el mundo.
+                    </p>
+                </section>
+
+                <!-- Sección Experiencias -->
+                <section id="experiencias" class="card-poncho">
+                    <h2 class="mb-4 text-center">Viví la Experiencia del Poncho 2026</h2>
+                    <p class="text-center text-muted">Conocé las principales propuestas y espacios que componen nuestra tradicional celebración</p>
+
+                    <article class="p-3 rounded-3 mt-3">
+                        <h3 class="h4">Pabellones de Artesanías</h3>
+                        <p class="lead">El corazón de la feria. Un espacio único para admirar y adquirir obras maestras textiles, cerámicas, de platería y madera talladas por las manos de destacados artesanos nacionales e internacionales.</p>
+                    </article>
+                </section>
+
+            </div>
+        </div>
     </main>
-    <footer>
-        <p>Fiesta Nacional e Internacional del Poncho – Catamarca &copy; 2026</p>
-        <p>
-            <strong>Desarrolladores:</strong> Contrera Sofia Candela, Leiva Tamara Nahir, Robledo Maria Valentina <br>
-            <strong>Cátedra:</strong> Programación III | Universidad Nacional de Catamarca
-        </p>
-        <hr>
-        <p>
-            <strong>¡Seguinos en nuestras redes!:</strong>
-            <a href="https://www.facebook.com/fiestanacionaldelponcho" target="_blank">Facebook</a> |
-            <a href="https://www.instagram.com/fiestanacionaldelponcho/" target="_blank">Instagram</a> |
-            <a href="https://www.youtube.com/@culturacatamarca" target="_blank">YouTube</a> |
-            <a href="https://www.tiktok.com/@fiestanacionaldelponcho" target="_blank">TikTok</a>
-        </p>
+
+    <!-- Pie de pagina-->
+    <footer class="text-white pt-4 pb-3 mt-auto">
+        <div class="container ">
+
+            <!-- CONTENEDOR FLEXBOX: Separa el texto de copyright a la izquierda y el botón a la derecha -->
+            <div class="d-flex justify-content-center align-items-center flex-wrap gap-3 mb-3">
+                <p class="mb-0">Fiesta Nacional e Internacional del Poncho – Catamarca &copy; 2026</p>
+
+                <a href="#header-poncho" class="btn-footer" title="Volver al inicio de la página">
+                    ▲
+                </a>
+            </div>
+
+            <hr class="border-secondary my-3">
+            <p class="small text-center mb-0">
+                ¡Seguinos en nuestras redes!
+                <a href="https://www.facebook.com/fiestanacionaldelponcho" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>Facebook</strong></a> |
+                <a href="https://www.instagram.com/fiestanacionaldelponcho/" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>Instagram</strong></a> |
+                <a href="https://www.youtube.com/@culturacatamarca" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>YouTube</strong></a> |
+                <a href="https://www.tiktok.com/@fiestanacionaldelponcho" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>TikTok</strong></a>
+            </p>
+        </div>
     </footer>
 </body>
 </html>

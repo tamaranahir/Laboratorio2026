@@ -1,0 +1,206 @@
+                            /* 1. SELECTOR DE ETIQUETA - CUERPO COMPLETO */
+body {
+    background-color: #fdfbf7;
+    font-family: Tahoma;
+    color: #351f15; /* Marrón arcilla oscuro para textos generales */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Sticky Footer: Empuja al footer al fondo si hay poco contenido */
+    max-width: 90%; /* ¡La clave! Usa el 90% de la pantalla, dejando un 5% libre de cada lado */
+    margin: 0 auto; /* Centra el bloque entero en la pantalla de forma automática */
+}
+
+                            /* 2. HEADER - SELECTOR DE IDENTIFICADOR */
+#header-poncho {
+    background: #294268;
+    color: #ffffff;
+    border-bottom: 4px solid #cda034; /* Borde dorado que representa el tejido de vicuña */
+}
+
+#header-poncho h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    letter-spacing: 1px;
+    font-family: Georgia;
+}
+
+#header-poncho p {
+    color: #ffd148; /* Resalta el subtítulo en dorado sutil */
+    font-size: 1.2rem;
+    font-family:"Palatino Linotype";
+}
+
+.contenedor-flexible {
+    display: flex; /* Activa el modo flexible */
+    justify-content: center; /* centra horizontalmente ambos elementos */
+    align-items: center; /* Alinea verticalmente al centro la imagen y el texto */
+    gap: 20px; /* Le da una separación (aire) de 20px entre la imagen y el texto */
+    margin: 0 auto; /* Cero margen lateral */
+    padding: 20px 15px; /* Usa padding en lugar de margin */
+}
+
+                            /* 3. SELECTORES DE CLASE - MAIN */
+.card-poncho {
+    background-color: #ffffff;
+    border: 1px solid #ebdcb9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(53, 31, 21, 0.06);
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.card-poncho:hover {
+    transform: translateY(-2px); /* Efecto sutil de elevación */
+    box-shadow: 0 8px 25px rgba(53, 31, 21, 0.1);
+}
+
+.card-poncho h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #9a6f15;
+    letter-spacing: 1.3px;
+    font-family: Georgia;
+}
+
+/* NO SABEMOS DE DONDE ESSSSSSSS */
+
+.btn-poncho-secundario {
+    background-color: #ebdcb9;
+    color: #351f15;
+    font-weight: bold;
+    border: 1px solid #c2b090;
+    border-radius: 6px;
+    padding: 10px 24px;
+    transition: all 0.2s ease;
+}
+
+.btn-poncho-secundario:hover {
+    background-color: #351f15;
+    color: #ffffff;
+}
+
+.fieldset-poncho {
+    border: 2px solid #ebdcb9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    background-color: #fdfdfd;
+}
+
+.fieldset-poncho legend {
+    float: none;
+    width: auto;
+    padding: 0 12px;
+    font-weight: bold;
+    color: #b05b36;
+    font-size: 1.1rem;
+}
+
+                    /* 4. SELECTOR COMBINADO - MENÚ DE NAVEGACIÓN */
+.navbar-poncho {
+    background-color: #aec8f7 !important;
+}
+
+.navbar-poncho .nav-link {
+    color: #01193f !important;
+    font-weight: 500;
+    padding: 8px 16px !important;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-poncho .nav-link:hover {
+    background-color: rgb(200 147 32 / 0.4); /* Resaltado dorado translúcido */
+    color: #01193f !important;
+}
+
+.btn-menu {
+    background-color: #ffffff; /* Color cobre / poncho tradicional */
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-menu:hover {
+    background-color: #d39e29; /* Color cobre más tostado al pasar el cursor */
+    color: #c19126;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 2px #d4af37 !important; /* Delgado (2px) y en dorado */
+    outline: none !important;
+}
+
+                            /* PIE DE PAGINA */
+footer{
+    background-color: #adc6f5;
+}
+
+footer p {
+    color: #01193f;
+}
+
+
+.btn-footer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #585b5e;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-footer:hover {
+    background-color: #d39e29;
+    color: #585b5e;
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 2px #d4af37;
+}
+
+                            /* 5. DISEÑO RESPONSIVO (Media Query para evitar desbordes) */
+@media (max-width: 768px) {
+    .contenedor-flexible {
+        flex-direction: column; /* Coloca la imagen arriba y el texto abajo */
+        text-align: center;
+    }
+
+    .contenedor-flexible img {
+        width: 150px; /* Reduce el logo para que no ocupe toda la pantalla */
+        height: auto;
+    }
+
+    #header-poncho p {
+        font-size: 1rem; /* Reduce el subtítulo */
+    }
+
+    #header-poncho h1 {
+        font-size: 2rem;
+    }
+
+    .card-poncho {
+        padding: 15px;
+    }
+
+    /* Control de desborde horizontal para tablas pesadas en móviles */
+    .table-responsive-poncho {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid #ebdcb9;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+}
