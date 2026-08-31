@@ -47,7 +47,7 @@ main {
                             /* 3. SELECTORES DE CLASE - MAIN */
 .card-poncho {
     background-color: #ffffff;
-    border: 1px solid #ebdcb9;
+    border: 2px solid #e9dab8;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(53, 31, 21, 0.06);
     padding: 25px;
@@ -85,9 +85,9 @@ main {
 }
 
 .fieldset-poncho {
-    border: 2px solid #ebdcb9;
+    border: 1px solid #986d15;
     border-radius: 8px;
-    padding: 20px;
+    padding: 25px;
     margin-bottom: 25px;
     background-color: #fdfdfd;
 }
@@ -204,3 +204,110 @@ footer p {
         margin-bottom: 20px;
     }
 }
+
+
+/*Registro artesano*/
+
+/* Título principal del formulario */
+#registro-solicitud h2 {
+    font-family: Georgia, serif;
+    color: #294268;
+    font-weight: bold;
+    border-bottom: 3px solid #cda034;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+
+.fieldset-poncho legend {
+    float: none;
+    width: auto;
+    padding: 6px 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #294267;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+    /* Bordes más gruesos y definidos para los campos de datos personales */
+.card-poncho .form-control,
+.card-poncho .form-select {
+    border: 1px solid #996e15 !important;
+    transition: border-color 0.2s ease-in-out;
+}
+
+/* Cambio de color cuando el artesano hace clic para escribir (Focus) */
+.card-poncho .form-control:focus,
+.card-poncho .form-select:focus {
+    border-color: #adc7f5 !important;
+    box-shadow: 0 0 0 0.1rem rgb(172 198 244) !important;
+}
+
+/* Selecciona el texto de ejemplo en inputs y áreas de texto */
+.form-control::placeholder,
+textarea::placeholder {
+    font-style: italic !important;
+    color: #a0a0a0 !important;
+    opacity: 1;
+}
+
+/* Selecciona las etiquetas de texto de los campos dentro de la tarjeta */
+.card-poncho label,
+.card-poncho .form-label {
+    font-weight: bold !important;
+    color: #2b3149;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+
+
+.contenedor-juramento {
+    border: 1px solid #996e15 !important;
+    border-radius: 6px;
+    background-color: #ffffff;
+    padding: 16px 20px;
+    margin-bottom: 25px;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.btn-formulario-primario {
+    background-color: #294268;
+    color: #ffffff !important;
+    font-weight: bold;
+    border: 2px solid #294268;
+    border-radius: 6px;
+    padding: 10px 24px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+/* Efecto interactivo al posar el cursor */
+.btn-formulario-primario:hover {
+    background-color: #51804f;
+    border-color: #517f4f;
+    color: #ffffff !important;
+    transform: translateY(-2px);   /* Leve elevación de relieve */
+    box-shadow: 0 4px 12px rgba(154, 111, 21, 0.3);
+}
+
+.btn-formulario-secundario {
+    background-color: #ebdcb9;
+    color: #2b3149 !important;
+    font-weight: bold;
+    border: 2px solid #c2b090;
+    border-radius: 6px;
+    padding: 10px 24px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.btn-formulario-secundario:hover {
+    background-color: #8f1036;
+    border-color: #830f32;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+
+
