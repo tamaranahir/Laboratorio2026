@@ -1,24 +1,8 @@
-                            /* 1. SELECTOR DE ETIQUETA - CUERPO COMPLETO */
-body {
-    background-color: #fdfbf7;
-    font-family: Tahoma;
-    color: #351f15; /* Marrón arcilla oscuro para textos generales */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    flex: 1; /* Sticky Footer: Empuja al footer al fondo si hay poco contenido */
-    max-width: 90%; /* ¡La clave! Usa el 90% de la pantalla, dejando un 5% libre de cada lado */
-    margin: 0 auto; /* Centra el bloque entero en la pantalla de forma automática */
-}
-
-                            /* 2. HEADER - SELECTOR DE IDENTIFICADOR */
+                            /* 1. HEADER - SELECTOR DE IDENTIFICADOR */
 #header-poncho {
     background: #294268;
     color: #ffffff;
-    border-bottom: 4px solid #cda034; /* Borde dorado que representa el tejido de vicuña */
+    border-bottom: 4px solid #cda034; /* Borde dorado */
 }
 
 #header-poncho h1 {
@@ -30,21 +14,72 @@ main {
 }
 
 #header-poncho p {
-    color: #ffd148; /* Resalta el subtítulo en dorado sutil */
+    color: #ffd148;
     font-size: 1.2rem;
     font-family:"Palatino Linotype";
 }
 
 .contenedor-flexible {
     display: flex; /* Activa el modo flexible */
-    justify-content: center; /* centra horizontalmente ambos elementos */
+    justify-content: center; /* Centra horizontalmente ambos elementos */
     align-items: center; /* Alinea verticalmente al centro la imagen y el texto */
-    gap: 20px; /* Le da una separación (aire) de 20px entre la imagen y el texto */
+    gap: 20px; /* Le da una separación de 20px entre la imagen y el texto */
     margin: 0 auto; /* Cero margen lateral */
-    padding: 20px 15px; /* Usa padding en lugar de margin */
+    padding: 20px 15px;
 }
 
-                            /* 3. SELECTORES DE CLASE - MAIN */
+                            /* 2. MENÚ DE NAVEGACIÓN */
+.navbar-poncho {
+    background-color: #aec8f7 !important;
+}
+
+.navbar-poncho .nav-link {
+    color: #01193f;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-poncho .nav-link:hover {
+    background-color: rgb(200 147 32 / 0.4); /* Resaltado dorado translúcido */
+    color: #01193f;
+}
+
+.btn-menu {
+    background-color: #ffffff; /* Color cobre */
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-menu:hover {
+    background-color: #d39e29; /* Color cobre pasar el cursor */
+    color: #c19126;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 2px #d4af37 !important; /* Delgado (2px) y en dorado */
+    outline: none !important;
+}
+                            /* 3. CONFIGURACIÓN GENERAL */
+body {
+    background-color: #fdfbf7;
+    font-family: Tahoma;
+    color: #351f15;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Empuja al footer al fondo si hay poco contenido */
+    max-width: 90%; /* Usa el 90% de la pantalla, dejando un 5% libre de cada lado */
+    margin: 0 auto; /* Centra el bloque entero en la pantalla de forma automática */
+}
+
+                            /* 4. TARJETAS Y CONTENEDORES */
 .card-poncho {
     background-color: #ffffff;
     border: 2px solid #e9dab8;
@@ -67,23 +102,7 @@ main {
     font-family: Georgia;
 }
 
-/* NO SABEMOS DE DONDE ESSSSSSSS */
-
-.btn-poncho-secundario {
-    background-color: #ebdcb9;
-    color: #351f15;
-    font-weight: bold;
-    border: 1px solid #c2b090;
-    border-radius: 6px;
-    padding: 10px 24px;
-    transition: all 0.2s ease;
-}
-
-.btn-poncho-secundario:hover {
-    background-color: #351f15;
-    color: #ffffff;
-}
-
+                            /* 5. FORMULARIOS (FIELDSETS Y ENTRADAS DE DATOS) */
 .fieldset-poncho {
     border: 1px solid #986d15;
     border-radius: 8px;
@@ -92,52 +111,154 @@ main {
     background-color: #fdfdfd;
 }
 
+/* Título principal del formulario */
+#registro-solicitud h2 {
+    font-family: Georgia, serif;
+    color: #294268;
+    font-weight: bold;
+    border-bottom: 3px solid #cda034;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#publicar-producto h2 {
+    font-family: Georgia, serif;
+    color: #294268;
+    font-weight: bold;
+    border-bottom: 3px solid #cda034;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
 .fieldset-poncho legend {
     float: none;
     width: auto;
-    padding: 0 12px;
+    padding: 6px 16px;
     font-weight: bold;
-    color: #b05b36;
-    font-size: 1.1rem;
-}
-
-                    /* 4. SELECTOR COMBINADO - MENÚ DE NAVEGACIÓN */
-.navbar-poncho {
-    background-color: #aec8f7 !important;
-}
-
-.navbar-poncho .nav-link {
-    color: #01193f !important;
-    font-weight: 500;
-    padding: 8px 16px !important;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-}
-
-.navbar-poncho .nav-link:hover {
-    background-color: rgb(200 147 32 / 0.4); /* Resaltado dorado translúcido */
-    color: #01193f !important;
-}
-
-.btn-menu {
-    background-color: #ffffff; /* Color cobre / poncho tradicional */
     color: #ffffff;
+    background-color: #294267;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Bordes más gruesos y definidos para los campos */
+.card-poncho .form-control,
+.card-poncho .form-select {
+    border: 1px solid #996e15;
+    transition: border-color 0.2s ease-in-out;
+}
+
+/* Cambio de color cuando el artesano hace clic para escribir (Focus) */
+.card-poncho .form-control:focus,
+.card-poncho .form-select:focus {
+    border-color: #adc7f5;
+    box-shadow: 0 0 0 0.1rem rgb(172 198 244);
+}
+
+/* Texto de ejemplo en inputs y áreas de texto */
+.form-control::placeholder,
+textarea::placeholder {
+    font-style: italic;
+    color: #a0a0a0;
+    opacity: 1;
+}
+
+/* Etiquetas de texto de los campos (títulos) */
+.card-poncho label,
+.card-poncho .form-label {
+    font-weight: bold;
+    color: #2b3149;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+                            /* 6. BOTONES FORMULARIO */
+.btn-formulario-primario {
+    background-color: #294268;
+    color: #ffffff;
+    font-weight: bold;
+    border: 2px solid #294268;
     border-radius: 6px;
-    padding: 10px 20px;
-    transition: background-color 0.2s ease;
+    padding: 10px 24px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
 }
 
-.btn-menu:hover {
-    background-color: #d39e29; /* Color cobre más tostado al pasar el cursor */
-    color: #c19126;
+/* Efecto interactivo al posar el cursor */
+.btn-formulario-primario:hover {
+    background-color: #51804f;
+    border-color: #517f4f;
+    color: #ffffff;
+    transform: translateY(-2px);   /* Leve elevación de relieve */
+    box-shadow: 0 4px 12px rgba(154, 111, 21, 0.3);
 }
 
-.navbar-toggler:focus {
-    box-shadow: 0 0 0 2px #d4af37 !important; /* Delgado (2px) y en dorado */
-    outline: none !important;
+.btn-formulario-secundario {
+    background-color: #ebdcb9;
+    color: #2b3149 !important;
+    font-weight: bold;
+    border: 2px solid #c2b090;
+    border-radius: 6px;
+    padding: 10px 24px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
 }
 
-                            /* PIE DE PAGINA */
+.btn-formulario-secundario:hover {
+    background-color: #8f1036;
+    border-color: #830f32;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+                                /* 7. TABLAS PERSONALIZADAS */
+.thead-poncho th {
+    background-color: #294268;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 12px 8px;
+    border-bottom: 3px solid #cda034;
+}
+
+.nombre-producto {
+    color: #2c2f49;
+    transition: color 0.2s ease;
+}
+                                /* 8. CHECKBOX */
+
+/* Contenedor con franja dorada a la izquierda */
+.caja-checkbox-destacada {
+    background-color: #fcfaf3;
+    border: 1px solid #ebdcb9;
+    border-left: 5px solid #cda034;
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* Efecto hover en toda la caja */
+.caja-checkbox-destacada:hover {
+    border-color: #cda034;
+    box-shadow: 0 4px 12px rgba(53, 31, 21, 0.05);
+}
+
+/* Checkbox dorado*/
+.caja-checkbox-destacada .form-check-input {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #996e15;
+    cursor: pointer;
+    margin-top: 0;
+}
+
+/* Estilo para los textos internos de la caja */
+.caja-checkbox-destacada .form-check-label {
+    cursor: pointer;
+    margin-bottom: 0;
+    padding-left: 10px;
+}
+
+                                /* 9. PIE DE PAGINA */
 footer{
     background-color: #adc6f5;
 }
@@ -145,7 +266,6 @@ footer{
 footer p {
     color: #01193f;
 }
-
 
 .btn-footer {
     display: inline-flex;
@@ -169,7 +289,7 @@ footer p {
     box-shadow: 0 0 0 2px #d4af37;
 }
 
-                            /* 5. DISEÑO RESPONSIVO (Media Query para evitar desbordes) */
+                            /* 10. DISEÑO RESPONSIVO */
 @media (max-width: 768px) {
     .contenedor-flexible {
         flex-direction: column; /* Coloca la imagen arriba y el texto abajo */
@@ -204,110 +324,4 @@ footer p {
         margin-bottom: 20px;
     }
 }
-
-
-/*Registro artesano*/
-
-/* Título principal del formulario */
-#registro-solicitud h2 {
-    font-family: Georgia, serif;
-    color: #294268;
-    font-weight: bold;
-    border-bottom: 3px solid #cda034;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-
-.fieldset-poncho legend {
-    float: none;
-    width: auto;
-    padding: 6px 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #294267;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-    /* Bordes más gruesos y definidos para los campos de datos personales */
-.card-poncho .form-control,
-.card-poncho .form-select {
-    border: 1px solid #996e15 !important;
-    transition: border-color 0.2s ease-in-out;
-}
-
-/* Cambio de color cuando el artesano hace clic para escribir (Focus) */
-.card-poncho .form-control:focus,
-.card-poncho .form-select:focus {
-    border-color: #adc7f5 !important;
-    box-shadow: 0 0 0 0.1rem rgb(172 198 244) !important;
-}
-
-/* Selecciona el texto de ejemplo en inputs y áreas de texto */
-.form-control::placeholder,
-textarea::placeholder {
-    font-style: italic !important;
-    color: #a0a0a0 !important;
-    opacity: 1;
-}
-
-/* Selecciona las etiquetas de texto de los campos dentro de la tarjeta */
-.card-poncho label,
-.card-poncho .form-label {
-    font-weight: bold !important;
-    color: #2b3149;
-    font-size: 0.95rem;
-    margin-bottom: 6px;
-}
-
-
-.contenedor-juramento {
-    border: 1px solid #996e15 !important;
-    border-radius: 6px;
-    background-color: #ffffff;
-    padding: 16px 20px;
-    margin-bottom: 25px;
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.btn-formulario-primario {
-    background-color: #294268;
-    color: #ffffff !important;
-    font-weight: bold;
-    border: 2px solid #294268;
-    border-radius: 6px;
-    padding: 10px 24px;
-    transition: all 0.25s ease-in-out;
-    cursor: pointer;
-}
-
-/* Efecto interactivo al posar el cursor */
-.btn-formulario-primario:hover {
-    background-color: #51804f;
-    border-color: #517f4f;
-    color: #ffffff !important;
-    transform: translateY(-2px);   /* Leve elevación de relieve */
-    box-shadow: 0 4px 12px rgba(154, 111, 21, 0.3);
-}
-
-.btn-formulario-secundario {
-    background-color: #ebdcb9;
-    color: #2b3149 !important;
-    font-weight: bold;
-    border: 2px solid #c2b090;
-    border-radius: 6px;
-    padding: 10px 24px;
-    transition: all 0.25s ease-in-out;
-    cursor: pointer;
-}
-
-.btn-formulario-secundario:hover {
-    background-color: #8f1036;
-    border-color: #830f32;
-    color: #ffffff !important;
-    transform: translateY(-2px);
-}
-
-
 
