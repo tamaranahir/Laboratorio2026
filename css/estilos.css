@@ -217,6 +217,12 @@ textarea::placeholder {
     font-weight: bold;
     padding: 12px 8px;
     border-bottom: 3px solid #cda034;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Me quita una linea "flotante" al final del encabezado */
+.thead-poncho th:last-child {
+    border-right: none !important;
 }
 
 .nombre-producto {
