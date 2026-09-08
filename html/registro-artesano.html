@@ -58,40 +58,74 @@
                     </p>
 
                     <!-- Formulario de carga multipart con los controles requeridos -->
-                    <form action="solicitud-enviada.html" method="post" enctype="multipart/form-data">
+                    <form id="form-registro-artesano" action="solicitud-enviada.html" method="post" enctype="multipart/form-data" novalidate>
 
                     <!-- Grupo 1: Datos Personales -->
                         <fieldset class="fieldset-poncho">
                             <legend>Datos Personales del Artesano</legend>
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="nombre_completo" class="form-label font-weight-bold">Apellido y Nombre:</label>
-                                    <input type="text" id="nombre_completo" name="nombre_completo" class="form-control" placeholder="Escriba su nombre completo" maxlength="100" required>
+                                    <input type="text" id="nombre_completo" name="nombre_completo" class="form-control" placeholder="Escriba su nombre completo" maxlength="100">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="dni" class="form-label">DNI (8 dígitos):</label>
-                                    <input type="text" id="dni" name="dni" class="form-control" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" placeholder="Ej: 45678901" required>
+                                    <input type="text" id="dni" name="dni" class="form-control" inputmode="numeric" placeholder="Ej: 45678901">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
-                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required>
+                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="correo_electronico" class="form-label">Correo Electrónico:</label>
-                                    <input type="email" id="correo_electronico" name="correo_electronico" class="form-control" placeholder="usuario@ejemplo.com" required>
+                                    <input type="email" id="correo_electronico" name="correo_electronico" class="form-control" placeholder="usuario@ejemplo.com">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="telefono" class="form-label">Teléfono (con código de área sin 0 ni 15):</label>
-                                    <input type="tel" id="telefono" name="telefono" class="form-control" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="Ej: 3834123456" required>
+                                    <input type="tel" id="telefono" name="telefono" class="form-control" inputmode="numeric"  placeholder="Ej: 3834123456">
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label for="localidad" class="form-label">Localidad de Origen:</label>
-                                    <input type="text" id="localidad" name="localidad" class="form-control" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+" maxlength="100" placeholder="Ej: Belén, Tinogasta, Andalgalá..." required>
+                                    <label for="provincia" class="form-label">Provincia de Origen:</label>
+                                    <select id="provincia" name="provincia" class="form-select">
+                                        <option value="">-- Seleccione una provincia --</option>
+                                        <option value="buenosaires">Buenos Aires</option>
+                                        <option value="catamarca">Catamarca</option>
+                                        <option value="chaco">Chaco</option>
+                                        <option value="chubut">Chubut</option>
+                                        <option value="cordoba">Córdoba</option>
+                                        <option value="corrientes">Corrientes</option>
+                                        <option value="entrerios">Entre Ríos</option>
+                                        <option value="formosa">Formosa</option>
+                                        <option value="jujuy">Jujuy</option>
+                                        <option value="lapampa">La Pampa</option>
+                                        <option value="larioja">La Rioja</option>
+                                        <option value="mendoza">Mendoza</option>
+                                        <option value="misiones">Misiones</option>
+                                        <option value="neuquen">Neuquén</option>
+                                        <option value="rionegro">Rio Negro</option>
+                                        <option value="salta">Salta</option>
+                                        <option value="sanjuan">San Juan</option>
+                                        <option value="sanluis">San Luis</option>
+                                        <option value="santacruz">Santa Cruz</option>
+                                        <option value="santafe">Santa Fe</option>
+                                        <option value="santiago">Santiago del Estero</option>
+                                        <option value="tierradelfuego">Tierra del Fuego</option>
+                                        <option value="tucuman">Tucumán</option>
+                                    </select>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <label for="departamento" class="form-label">Departamento / Jurisdicción:</label>
+                                    <select id="departamento" name="departamento" class="form-select" disabled>
+                                        <option value="">-- Seleccione primero una provincia --</option>
+                                    </select>
+                                </div>
+
                                 <div class="col-12 mt-3">
                                     <label class="form-label d-block"><strong>Sexo:</strong></label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="Femenino" required>
+                                        <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="Femenino">
                                         <label class="form-check-label" for="sexo_f">Femenino</label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -112,11 +146,11 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="nombre_marca" class="form-label">Nombre del Emprendimiento o Marca:</label>
-                                    <input type="text" id="nombre_marca" name="nombre_marca" class="form-control" placeholder="Ej: Tejidos El Poncho" required>
+                                    <input type="text" id="nombre_marca" name="nombre_marca" class="form-control" placeholder="Ej: Tejidos El Poncho">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="rubro" class="form-label">Rubro o Especialidad:</label>
-                                    <select id="rubro" name="rubro" class="form-select" required>
+                                    <select id="rubro" name="rubro" class="form-select">
                                         <option value="">-- Seleccione un rubro --</option>
                                         <optgroup label="Artesanías">
                                             <option value="textil">Textil (Hilado, Telar, Vicuña)</option>
@@ -130,21 +164,22 @@
                                             <option value="aceites">Aceites y Conservas</option>
                                         </optgroup>
                                     </select>
+
                                 </div>
                                 <div class="col-12">
                                     <label for="descripcion_tecnicas" class="form-label">Descripción de Técnicas y Materias Primas:</label>
-                                    <textarea id="descripcion_tecnicas" name="descripcion_tecnicas" class="form-control" rows="5" placeholder="Describa brevemente cómo elabora sus piezas y qué materiales utiliza..." required></textarea>
+                                    <textarea id="descripcion_tecnicas" name="descripcion_tecnicas" class="form-control" rows="5" placeholder="Describa brevemente cómo elabora sus piezas y qué materiales utiliza..."></textarea>
                                 </div>
                                 <div class="col-12">
                                     <label for="foto_producto" class="form-label">Foto de los productos:</label>
-                                    <input type="file" id="foto_producto" name="foto_producto" class="form-control" accept="image/*" multiple required>
+                                    <input type="file" id="foto_producto" name="foto_producto" class="form-control" accept="image/*" multiple>
                                 </div>
                             </div>
                         </fieldset>
 
                         <!-- Consentimiento bajo Juramento con el mismo formato de borde -->
                         <div class="caja-checkbox-destacada d-flex align-items-center mb-4">
-                            <input type="checkbox" id="declaracion" name="declaracion" class="form-check-input" required>
+                            <input type="checkbox" id="declaracion" name="declaracion" class="form-check-input">
                             <label class="form-check-label text-dark" for="declaracion">
                                 <strong>Declaro bajo juramento</strong> que los productos a exponer son de elaboración propia y artesanal.
                             </label>
