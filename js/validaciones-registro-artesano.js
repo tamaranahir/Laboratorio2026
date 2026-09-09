@@ -1,9 +1,10 @@
-// TERCER AVANCE
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const form = document.getElementById("form-registro-artesano");
     const selectProvincia = document.getElementById("provincia");
     const selectDepartamento = document.getElementById("departamento");
+    const inputFoto = document.getElementById("foto_producto");
 
     //  1. FUNCIONALIDAD: SELECTS EN CASCADA (PROVINCIA -> DEPARTAMENTO)
     const departamentosPorProvincia = {
@@ -252,4 +253,67 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+
+
+     //FUNCIONALIDAD: Vista Previa
+    // Creamos el contenedor principal para las vistas previas dinámicamente debajo del input de foto
+    const contenedorPreview = document.createElement("div");
+    contenedorPreview.id = "vistaPreviaFoto";
+    contenedorPreview.className = "mt-3 d-none"; // Oculto inicialmente
+    inputFoto.parentNode.appendChild(contenedorPreview);
+
+    inputFoto.addEventListener("change", function () {
+        const archivos = inputFoto.files;
+
+        // Si no se seleccionó ningún archivo, limpiamos y ocultamos el contenedor
+        if (archivos.length === 0) {
+            contenedorPreview.innerHTML = "";
+            contenedorPreview.classList.add("d-none");
+            return;
+        }
+
+        contenedorPreview.innerHTML = ""; // Limpiamos vistas previas anteriores
+        contenedorPreview.classList.remove("d-none"); // Mostramos el contenedor
+
+        const parrafoTitulo = document.createElement("p");
+        parrafoTitulo.className = "small text-muted mb-2 text-center";
+        parrafoTitulo.appendChild(document.createTextNode("Vista previa de las piezas seleccionadas:"));
+        contenedorPreview.appendChild(parrafoTitulo);
+
+        // Contenedor flexible para alinear las imágenes horizontalmente en lote
+        const divFlex = document.createElement("div");
+        divFlex.className = "d-flex flex-wrap justify-content-center gap-2";
+        contenedorPreview.appendChild(divFlex);
+
+        // Recorremos el FileList transformándolo en array para verificar cada imagen
+        Array.from(archivos).forEach((archivo) => {
+            // Validamos que sea estrictamente un formato de imagen
+            if (!archivo.type.startsWith("image/")) {
+                alert("Por favor, seleccione únicamente archivos de imagen válidos (.png, .jpg, .webp).");
+                inputFoto.value = ""; // Reseteamos el input
+                contenedorPreview.innerHTML = "";
+                contenedorPreview.classList.add("d-none");
+                return;
+            }
+
+            const lector = new FileReader();
+
+            lector.onload = function (evento) {
+                const img = document.createElement("img");
+                img.src = evento.target.result;
+                img.alt = "Vista previa del producto";
+                img.className = "img-fluid rounded shadow-sm";
+                img.style.maxHeight = "130px";
+                img.style.border = "2px solid #ebdcb9";
+                img.style.borderRadius = "6px";
+                img.style.objectFit = "cover";
+
+                divFlex.appendChild(img);
+            };
+
+
+            lector.readAsDataURL(archivo);
+        });
+    });
 });
