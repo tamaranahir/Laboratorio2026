@@ -1,9 +1,7 @@
-
 document.addEventListener("DOMContentLoaded", () => {
 
     const formProducto = document.getElementById("form-publicar-producto");
     const inputFoto = document.getElementById("foto_producto");
-
 
 if (formProducto) {
         formProducto.addEventListener("submit", (event) => {
@@ -11,19 +9,28 @@ if (formProducto) {
             let errores = [];
 
             // 1. Validación: Nombre de la Artesanía
-            const nombreProd = document.getElementById("nombre_producto");
-            if (nombreProd) {
-                const valorNombre = nombreProd.value.trim();
+            const inputNombreProd = document.getElementById("nombre_producto");
+            if (inputNombreProd) {
+                const valorNombre = inputNombreProd.value.trim();
+
+                // Usamos la regla general (letras y espacios)
+                const regexProducto = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s.&'-]+$/;
+
                 if (valorNombre === "") {
                     esValido = false;
-                    errores.push("Debe ingresar el Nombre de la Artesanía.");
-                    nombreProd.classList.add("is-invalid");
+                    errores.push("Debe ingresar el nombre de la artesanía.");
+                    inputNombreProd.classList.add("is-invalid");
                 } else if (valorNombre.length < 3) {
                     esValido = false;
                     errores.push("El nombre de la artesanía debe tener al menos 3 caracteres.");
-                    nombreProd.classList.add("is-invalid");
+                    inputNombreProd.classList.add("is-invalid");
+                } else if (!regexProducto.test(valorNombre)) {
+                    esValido = false;
+                    errores.push("El nombre contiene símbolos no permitidos.");
+                    inputNombreProd.classList.add("is-invalid");
                 } else {
-                    nombreProd.classList.remove("is-invalid");
+                    inputNombreProd.classList.remove("is-invalid");
+                    inputNombreProd.classList.add("is-valid");
                 }
             }
 
@@ -82,7 +89,7 @@ if (formProducto) {
                 }
             }
 
-            // VALIDACIÓN FINAL DE ERRORES ACUMULADOS (O EXITO)
+            // Validación final de errores acumulados
             if (!esValido) {
                 event.preventDefault(); // Frena el envío
                 alert("Por favor, corrija los siguientes errores antes de publicar el producto:\n\n- " + errores.join("\n- "));
@@ -92,7 +99,7 @@ if (formProducto) {
         });
     }
 
-    //FUNCIONALIDAD: Vista Previa
+    // Funcionalidad para Vista Previa
     // Creamos el contenedor principal para las vistas previas dinámicamente debajo del input de foto
     const contenedorPreview = document.createElement("div");
     contenedorPreview.id = "vistaPreviaFoto";
@@ -147,7 +154,6 @@ if (formProducto) {
 
                 divFlex.appendChild(img);
             };
-
 
             lector.readAsDataURL(archivo);
         });

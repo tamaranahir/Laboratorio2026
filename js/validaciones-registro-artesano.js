@@ -57,9 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
             // A. Validación: Apellido y Nombre
             const nombre = document.getElementById("nombre_completo");
             if (nombre) {
-                if (nombre.value.trim() === "") {
+                const valorNombre = nombre.value.trim();
+                // RegEx que solo permite letras en español (con tildes, ñ, ü) y espacios
+                const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/;
+
+                if (valorNombre === "") {
                     esValido = false;
                     errores.push("Debe ingresar su Apellido y Nombre.");
+                    nombre.classList.add("is-invalid");
+                } else if (!regexNombre.test(valorNombre)) {
+                    esValido = false;
+                    errores.push("El Apellido y Nombre solo debe contener letras y espacios (sin números ni símbolos).");
                     nombre.classList.add("is-invalid");
                 } else {
                     nombre.classList.remove("is-invalid");
@@ -143,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // F. NUEVO: Validación de Selección de Sexo (Radio Buttons)
+            // F. Validación de Selección de Sexo (Radio Buttons)
             const sexos = document.getElementsByName("sexo");
             let sexoSeleccionado = false;
             sexos.forEach(radio => {
@@ -182,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // I. NUEVO: Validación de Nombre del Emprendimiento o Marca
+            // I. Validación de Nombre del Emprendimiento o Marca
             const nombreMarca = document.getElementById("nombre_marca");
             if (nombreMarca) {
                 if (nombreMarca.value.trim() === "") {
@@ -206,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // K. NUEVO: Validación de Descripción de Técnicas (Con longitud mínima)
+            // K. Validación de Descripción de Técnicas (Con longitud mínima)
             const descripcionTecnicas = document.getElementById("descripcion_tecnicas");
             if (descripcionTecnicas) {
                 if (descripcionTecnicas.value.trim() === "") {
@@ -244,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 declaracion.classList.remove("is-invalid");
             }
 
-            // VALIDACIÓN FINAL DE ERRORES ACUMULADOS (O EXITO)
+            // Validación final de errores acumulados
             if (!esValido) {
                 event.preventDefault(); // Frena el envío
                 alert("Por favor, corrija los siguientes errores antes de continuar:\n\n- " + errores.join("\n- "));
@@ -254,9 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-
-     //FUNCIONALIDAD: Vista Previa
+     // Funcionalidad para Vista Previa
     // Creamos el contenedor principal para las vistas previas dinámicamente debajo del input de foto
     const contenedorPreview = document.createElement("div");
     contenedorPreview.id = "vistaPreviaFoto";
