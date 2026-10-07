@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     # Aplicaciones del laboratorio
     'apps.productos',
     'apps.artesanos',
-    'apps.stands',
+    'apps.usuario',
+
 ]
 
 MIDDLEWARE = [
