@@ -1,0 +1,107 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Inicio | Poncho Digital 2026{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div>
+
+        <!-- Sección Bienvenida -->
+        <section id="bienvenida" class="card-poncho">
+            <h2 class="mb-4 text-center">Bienvenidos a la Edición Virtual de la Fiesta Nacional del Poncho</h2>
+
+            <!-- Estructura de 2 columnas-->
+            <div class="row g-4 align-items-center my-3">
+
+                <!-- Columna Izquierda: Cuadro con texto y botón -->
+                <div class="col-12 col-lg-6">
+                    <div class="p-4 rounded-3 shadow-sm" style="background-color: #f4f3f0;">
+                        <p class="fs-5 mb-3 fw-semibold" style="color: #2b2b2b;">
+                            La Fiesta Nacional e Internacional del Poncho 2026 se realizará del 17 al 26 de julio en el Predio Ferial Catamarca.
+                        </p>
+                        <p class="text-secondary mb-4">
+                            Será la edición Nº 55 de la fiesta popular más grande del invierno de la Argentina, afirmando la identidad, artesanías y gastronomía de Catamarca.
+                        </p>
+                        <a href="{% url 'artesanos:registro' %}" class="btn fw-bold px-4 py-2 text-white shadow-sm" style="background-color: #9a6f15; border: none;">
+                            Postularme como Artesano
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Video responsivo -->
+                <div class="col-12 col-lg-6">
+                    <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm">
+                        <video autoplay loop muted playsinline controls style="object-fit: cover; width: 100%; height: 100%;">
+                            <source src="{% static 'img/video_poncho.mp4' %}" type="video/mp4">
+                            Tu navegador no soporta videos en HTML5.
+                        </video>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row g-3 text-center my-4">
+                <div class="col-12 col-md-4">
+                    <div class="p-3 bg-light rounded-3 border shadow-sm h-100 d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-calendar-event fs-2 mb-2" style="color: #9a6f15;"></i>
+                        <strong class="text-dark">17 al 26 de Julio</strong>
+                        <small class="text-muted">Fechas confirmadas</small>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="p-3 bg-light rounded-3 border shadow-sm h-100 d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-geo-alt-fill fs-2 mb-2" style="color: #9a6f15;"></i>
+                        <strong class="text-dark">Predio Ferial</strong>
+                        <small class="text-muted">Catamarca, Argentina</small>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="p-3 bg-light rounded-3 border shadow-sm h-100 d-flex flex-column justify-content-center align-items-center">
+                        <i class="bi bi-award-fill fs-2 mb-2" style="color: #9a6f15;"></i>
+                        <strong class="text-dark">55º Edición</strong>
+                        <small class="text-muted">Fiesta Nacional e Internacional</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Experiencias -->
+            <section id="experiencias" class="card-poncho mt-4">
+                <h3 class="h4 mb-3 text-center" style="color: #3d2314;">Viví la Experiencia</h3>
+
+                <div class="row g-3 text-start">
+                    <div class="col-12 col-md-6">
+                        <div class="p-3 rounded-3 border bg-body-tertiary h-100">
+                            <h4 class="h6 fw-bold mb-1" style="color: #9a6f15;">
+                                <i class="bi bi-palette me-2"></i>Pabellones de Artesanías
+                            </h4>
+                            <p class="small text-secondary mb-0">Obras textiles, cerámicas, platería y madera de destacados artesanos.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="p-3 rounded-3 border bg-body-tertiary h-100">
+                            <h4 class="h6 fw-bold mb-1" style="color: #9a6f15;">
+                                <i class="bi bi-music-note-beamed me-2"></i>Escenario Mayor
+                            </h4>
+                            <p class="small text-secondary mb-0">Música en vivo, folklore y espectáculos de danza tradicional.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Plano Oficial del Predio Ferial -->
+            <section id="mapa-predio" class="card-poncho mt-4 text-center">
+                <div class="mb-3">
+                    <h3 class="h4 fw-bold" style="color: #3d2314;">Plano Oficial del Predio Ferial 2026</h3>
+                    <p class="text-muted small mb-0">Distribución de pabellones, escenarios y sectores gastronómicos.</p>
+                </div>
+                <img src="{% static 'img/plano_predio.png' %}"
+                     alt="Plano del Predio Ferial"
+                     class="img-fluid rounded-3"
+                     style="max-height: 500px; width: auto;">
+            </section>
+
+        </section>
+    </div>
+</div>
+{% endblock %}

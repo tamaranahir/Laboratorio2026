@@ -1,0 +1,93 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="container py-2">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1 text-dark">Mis Productos Publicados</h2>
+            <p class="text-muted mb-0">Gestioná el catálogo de tu stand digital</p>
+        </div>
+        <a href="{% url 'productos:cargar' %}" class="btn-formulario-primario text-decoration-none px-4 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2 text-white">
+            <i class="bi bi-plus-lg"></i> Cargar Nuevo Producto
+        </a>
+    </div>
+
+    <!-- Grilla de Productos del Artesano -->
+    {% if productos %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            {% for prod in productos %}
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-poncho">
+                        <div class="position-relative bg-light text-center d-flex align-items-center justify-content-center" style="height: 200px;">
+                            {% if prod.imagen %}
+                                <img src="{{ prod.imagen.url }}" class="w-100 h-100 object-fit-cover" alt="{{ prod.nombre }}">
+                            {% else %}
+                                <div class="text-muted p-3">
+                                    <i class="bi bi-image fs-1 opacity-50"></i>
+                                    <span class="d-block small">Sin foto</span>
+                                </div>
+                            {% endif %}
+                            <span class="badge bg-dark position-absolute top-0 end-0 m-3 px-2 py-1 rounded-pill small">
+                                {{ prod.categoria.nombre }}
+                            </span>
+                        </div>
+
+                        <div class="card-body d-flex flex-column p-3">
+                            <h5 class="fw-bold my-1 text-dark">{{ prod.nombre }}</h5>
+                            <p class="text-muted small flex-grow-1">{{ prod.descripcion|default:"Sin descripción."|truncatewords:10 }}</p>
+
+                            <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-2 mb-3">
+                                <span class="fs-5 fw-bold text-success">${{ prod.precio }}</span>
+                                <span class="badge bg-light text-secondary border">Stock: {{ prod.stock }}</span>
+                            </div>
+
+                            <!-- Botones de Editar y Eliminar -->
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'productos:editar' prod.pk %}" class="btn btn-sm btn-outline-secondary w-50 rounded-pill">
+                                    <i class="bi bi-pencil me-1"></i> Editar
+                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-danger w-50 rounded-pill" data-bs-toggle="modal" data-bs-target="#modalEliminar{{ prod.pk }}">
+                                    <i class="bi bi-trash me-1"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalEliminar{{ prod.pk }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+                            <div class="modal-body text-center">
+                                <i class="bi bi-exclamation-triangle-fill text-danger fs-1 mb-2 d-block"></i>
+                                <h4 class="fw-bold text-dark">¿Eliminar producto?</h4>
+                                <p class="text-muted small">
+                                    Vas a borrar <strong>"{{ prod.nombre }}"</strong> del catálogo. Esta acción no se puede deshacer.
+                                </p>
+                                <div class="d-flex gap-2 justify-content-center mt-4">
+                                    <button type="button" class="btn btn-light rounded-pill px-4 fw-semibold" data-bs-dismiss="modal">Cancelar</button>
+                                    <form method="post" action="{% url 'productos:eliminar' prod.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger rounded-pill px-4 fw-semibold shadow-sm">Sí, Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card-poncho text-center py-5 rounded-4 shadow-sm my-4">
+            <i class="bi bi-box-seam fs-1 text-muted d-block mb-2"></i>
+            <h4 class="fw-bold text-secondary">Aún no publicaste productos</h4>
+            <p class="text-muted">Comenzá a armar tu stand subiendo tu primera artesanía.</p>
+            <a href="{% url 'productos:cargar' %}" class="btn-formulario-primario text-decoration-none px-4 py-2 rounded-pill d-inline-block mt-2 text-white">
+                Publicar mi primer producto
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,195 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Postulación de Artesanos | Poncho Digital{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-9">
+
+        <div class="card shadow border-0 rounded-4 overflow-hidden mb-5">
+
+            <div class="card-header text-white p-4 text-center" style="background-color: #294268;">
+                <h2 class="h3 fw-bold mb-1" style="color: #ebdcb9;">Formulario de Solicitud de Participación</h2>
+                <p class="small mb-0 text-white-50">Portal Oficial del Ministerio de Cultura y Turismo de Catamarca</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5 bg-white">
+
+                <div class="alert border-0 rounded-3 p-3 mb-4 d-flex align-items-start gap-3" style="background-color: #f4f6f9; border-left: 4px solid #294268 !important;">
+                    <i class="bi bi-info-circle-fill fs-4 flex-shrink-0" style="color: #294268;"></i>
+                    <div class="small text-muted">
+                        <strong class="text-dark d-block mb-1">Información importante para los postulantes:</strong>
+                        Complete con sus datos personales y los de su emprendimiento. Una vez enviada la solicitud, se evaluará la postulación para otorgarle el alta oficial y asignar su puesto ferial en el predio.
+                    </div>
+                </div>
+
+                <!-- Formulario -->
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- SECCIÓN 1: DATOS PERSONALES -->
+                    <fieldset class="border rounded-3 p-3 p-md-4 mb-4" style="border-color: #e2e8f0 !important;">
+                        <legend class="float-none w-auto px-3 fw-bold fs-6 rounded-pill" style="color: #294268; background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                            1. Datos Personales del Artesano
+                        </legend>
+
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="{{ form.nombre_completo.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-person me-1 text-muted"></i>Apellido y Nombre Completo:
+                                </label>
+                                {{ form.nombre_completo }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.dni.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-card-heading me-1 text-muted"></i>DNI (sin puntos):
+                                </label>
+                                {{ form.dni }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-envelope me-1 text-muted"></i>Correo Electrónico de Contacto:
+                                </label>
+                                {{ form.email }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.telefono.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-telephone me-1 text-muted"></i>Teléfono (con código de área):
+                                </label>
+                                {{ form.telefono }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.provincia.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-geo-alt me-1 text-muted"></i>Provincia de Origen:
+                                </label>
+                                {{ form.provincia }}
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="{{ form.departamento.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-map me-1 text-muted"></i>Departamento / Localidad:
+                                </label>
+                                {{ form.departamento }}
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- SECCIÓN 2: DATOS DEL EMPRENDIMIENTO -->
+                    <fieldset class="border rounded-3 p-3 p-md-4 mb-4" style="border-color: #e2e8f0 !important;">
+                        <legend class="float-none w-auto px-3 fw-bold fs-6 rounded-pill" style="color: #294268; background-color: #f8fafc; border: 1px solid #cbd5e1;">
+                            2. Datos del Taller o Emprendimiento
+                        </legend>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="{{ form.nombre_marca.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-award me-1 text-muted"></i>Nombre del Emprendimiento o Marca:
+                                </label>
+                                {{ form.nombre_marca }}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.rubro.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-palette me-1 text-muted"></i>Rubro o Especialidad Artesanal:
+                                </label>
+                                {{ form.rubro }}
+                            </div>
+
+                            <div class="col-12">
+                                <label for="{{ form.descripcion_tecnicas.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-tools me-1 text-muted"></i>Descripción de Técnicas y Materias Primas Utilizadas:
+                                </label>
+                                {{ form.descripcion_tecnicas }}
+                                <div class="form-text small">Describa brevemente los procesos de elaboración, materiales y si utiliza materia prima regional.</div>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label for="foto_producto" class="form-label fw-semibold text-dark small">
+                                    <i class="bi bi-images me-1 text-muted"></i>Foto de los productos:
+                                </label>
+                                <input type="file"
+                                       id="foto_producto"
+                                       name="foto_producto"
+                                       class="form-control"
+                                       accept="image/*"
+                                       multiple>
+                                <div class="form-text small">
+                                    Podés seleccionar una o varias imágenes de tus piezas artesanales (.jpg, .png).
+                                </div>
+                                <div id="vista-previa" class="d-flex flex-wrap justify-content-center align-items-center gap-3 mt-3"></div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- DECLARACIÓN JURADA -->
+                    <div class="p-3 rounded-3 mb-4 d-flex align-items-center gap-3" style="background-color: #faf8f5; border: 1px solid #ebdcb9;">
+                        <input type="checkbox" class="form-check-input flex-shrink-0" id="declaracion" required>
+                        <label class="form-check-label small text-dark mb-0" for="declaracion">
+                            <strong>Declaración Jurada:</strong> Declaro bajo juramento que los productos a exponer son de producción propia y artesanal, cumpliendo con las normativas de la Fiesta Nacional del Poncho.
+                        </label>
+                    </div>
+
+                    <!-- BOTONERA DE ACCIÓN -->
+                    <div class="d-flex justify-content-end align-items-center gap-3 pt-2">
+                        <button type="reset" class="btn btn-outline-secondary px-4 rounded-pill btn-sm">
+                            <i class="bi bi-eraser me-1"></i>Limpiar Formulario
+                        </button>
+                        <button type="submit" class="btn text-white px-4 py-2 rounded-pill fw-bold shadow-sm" style="background-color: #294268;">
+                            <i class="bi bi-send-fill me-1"></i>Enviar Postulación
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const inputFoto = document.getElementById('foto_producto');
+                const contenedorPreview = document.getElementById('vista-previa');
+
+                if (inputFoto && contenedorPreview) {
+                    inputFoto.addEventListener('change', function(e) {
+                        contenedorPreview.innerHTML = '';
+                        const archivos = e.target.files;
+                        if (archivos.length > 0) {
+                            Array.from(archivos).forEach(archivo => {
+                                if (archivo.type.startsWith('image/')) {
+                                    const reader = new FileReader();
+                                    reader.onload = function(event) {
+                                        const tarjeta = document.createElement('div');
+                                        tarjeta.className = 'bg-white p-2 rounded-3 shadow-sm border d-flex align-items-center justify-content-center';
+                                        tarjeta.style.width = '130px';
+                                        tarjeta.style.height = '130px';
+
+                                        // Imagen completa
+                                        const img = document.createElement('img');
+                                        img.src = event.target.result;
+                                        img.className = 'img-fluid rounded-2';
+                                        img.style.maxHeight = '100%';
+                                        img.style.maxWidth = '100%';
+                                        img.style.objectFit = 'contain';
+
+                                        tarjeta.appendChild(img);
+                                        contenedorPreview.appendChild(tarjeta);
+                                    };
+                                    reader.readAsDataURL(archivo);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            </script>
+
+            <div class="card-footer bg-light border-0 text-center py-3">
+                <small class="text-muted">Ministerio de Cultura y Turismo — Gobierno de la Provincia de Catamarca</small>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

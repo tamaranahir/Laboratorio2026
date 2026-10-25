@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="row justify-content-center py-2">
+    <div class="col-md-8 col-lg-6">
+        <section class="card-poncho p-4 shadow-sm rounded-4 bg-white">
+            <h2 class="mb-2 fw-bold text-center text-dark">Publicar Artesanía</h2>
+            <p class="text-muted text-center mb-4 small">
+                Completá los datos para sumar un nuevo producto al Catálogo del Poncho Digital.
+            </p>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-dark">Publicado por</label>
+                    <div class="form-control bg-light text-dark fw-semibold d-flex align-items-center gap-2">
+                        <i class="bi bi-shop text-success fs-5"></i>
+                        <span>{{ request.user.artesano.nombre_marca|default:request.user.artesano.nombre_completo }}</span>
+                        {% if request.user.artesano.nombre_marca and request.user.artesano.nombre_completo %}
+                            <span class="text-muted fw-normal small">({{ request.user.artesano.nombre_completo }})</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-dark">Categoría del Producto (*)</label>
+                    {{ form.categoria }}
+                    {% if form.categoria.errors %}<div class="text-danger small mt-1">{{ form.categoria.errors }}</div>{% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-dark">Nombre del Producto (*)</label>
+                    {{ form.nombre }}
+                    {% if form.nombre.errors %}<div class="text-danger small mt-1">{{ form.nombre.errors }}</div>{% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-dark">Descripción</label>
+                    {{ form.descripcion }}
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-6">
+                        <label class="form-label fw-bold small text-dark">Precio ($) (*)</label>
+                        {{ form.precio }}
+                        {% if form.precio.errors %}<div class="text-danger small mt-1">{{ form.precio.errors }}</div>{% endif %}
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label fw-bold small text-dark">Stock Disponible (*)</label>
+                        {{ form.stock }}
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-dark">Foto del Producto</label>
+                    {{ form.imagen }}
+                </div>
+
+                <div class="d-flex gap-2 pt-2">
+                    <a href="{% url 'productos:mis_productos' %}" class="btn btn-light w-50 py-2 rounded-pill fw-semibold">Cancelar</a>
+                    <button type="submit" class="btn-formulario-primario text-white border-0 w-50 py-2 rounded-pill fw-semibold shadow-sm">
+                        {% if es_edicion %}Guardar Cambios{% else %}Guardar Producto{% endif %}
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+{% endblock %}

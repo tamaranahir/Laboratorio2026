@@ -1,0 +1,102 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+        <section class="card-poncho text-center">
+            <h2 class="mb-3">Consultar Estado de Postulación</h2>
+            <p class="text-muted mb-4">
+                Ingresá tu número de DNI para conocer el estado de tu solicitud de participación.
+            </p>
+
+            <!-- Formulario de Búsqueda por DNI -->
+            <form method="get" action="{% url 'artesanos:consultar' %}" class="mb-4">
+                <div class="input-group input-group-lg shadow-sm rounded-3 overflow-hidden">
+                    <input type="text" name="dni" class="form-control border-0 bg-light" placeholder="Ingrese su DNI (ej: 45678901)" value="{{ dni }}" required>
+                    <button class="btn-formulario-primario px-4" type="submit">
+                        <i class="bi bi-search me-1"></i> Buscar
+                    </button>
+                </div>
+            </form>
+
+            <!-- Resultado de la Búsqueda por DNI -->
+            {% if buscado %}
+                {% if artesano %}
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mt-4 text-start">
+
+                        <!-- Header de Estado dinámico -->
+                        <div class="p-3 d-flex align-items-center justify-content-between
+                            {% if artesano.estado_postulacion == 'aprobado' %} bg-success-subtle text-success border-bottom border-success-subtle
+                            {% elif artesano.estado_postulacion == 'rechazado' %} bg-danger-subtle text-danger border-bottom border-danger-subtle
+                            {% else %} bg-warning-subtle text-warning-emphasis border-bottom border-warning-subtle {% endif %}">
+
+                            <div class="d-flex align-items-center gap-2">
+                                {% if artesano.estado_postulacion == 'aprobado' %}
+                                    <i class="bi bi-check-circle-fill fs-4 text-success"></i>
+                                    <div>
+                                        <span class="d-block text-uppercase fw-bold text-muted small" style="font-size: 0.75rem;">Estado del Trámite</span>
+                                        <span class="fw-bold text-success">Aprobado</span>
+                                    </div>
+                                {% elif artesano.estado_postulacion == 'rechazado' %}
+                                    <i class="bi bi-x-circle-fill fs-4 text-danger"></i>
+                                    <div>
+                                        <span class="d-block text-uppercase fw-bold text-muted small" style="font-size: 0.75rem;">Estado del Trámite</span>
+                                        <span class="fw-bold text-danger">No Habilitado</span>
+                                    </div>
+                                {% else %}
+                                    <i class="bi bi-clock-history fs-4 text-warning-emphasis"></i>
+                                    <div>
+                                        <span class="d-block text-uppercase fw-bold text-muted small" style="font-size: 0.75rem;">Estado del Trámite</span>
+                                        <span class="fw-bold text-warning-emphasis">En Evaluación</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <span class="badge rounded-pill px-3 py-2
+                                {% if artesano.estado_postulacion == 'aprobado' %} bg-success text-white
+                                {% elif artesano.estado_postulacion == 'rechazado' %} bg-danger text-white
+                                {% else %} bg-warning text-dark {% endif %}">
+                                {{ artesano.get_estado_postulacion_display }}
+                            </span>
+                        </div>
+
+                        <!-- Datos del Artesano -->
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
+                                <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                    <i class="bi bi-person-badge fs-3 text-secondary"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark">{{ artesano.nombre_completo }}</h5>
+                                    <span class="text-muted small">DNI: {{ artesano.dni }}</span>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 text-muted small">
+                                <div class="col-sm-6">
+                                    <span class="d-block fw-bold text-dark mb-1"><i class="bi bi-shop me-1"></i> Emprendimiento:</span>
+                                    {{ artesano.nombre_marca|default:"Sin marca registrada" }}
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="d-block fw-bold text-dark mb-1"><i class="bi bi-tools me-1"></i> Rubro:</span>
+                                    {{ artesano.rubro }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning rounded-3 mt-4 text-start shadow-sm border-0" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        No se encontró ninguna solicitud registrada para el DNI <strong>{{ dni }}</strong>. Verificá que los dígitos ingresados sean correctos.
+                    </div>
+                {% endif %}
+            {% endif %}
+
+        </section>
+
+    </div>
+</div>
+{% endblock %}

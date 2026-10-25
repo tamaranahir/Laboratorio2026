@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
     # 1. Tabla de Rubros
 class Rubro(models.Model):
@@ -24,7 +25,6 @@ class Stand(models.Model):
     def __str__(self):
         estado = f"Ocupado por {self.artesano.nombre_marca}" if self.artesano else "Disponible"
         return f"Stand {self.numero} - {self.pabellon} ({estado})"
-
 
 # 3. Postulación y Perfil del Artesano
 class Artesano(models.Model):
@@ -54,6 +54,25 @@ class Artesano(models.Model):
     # Gestión de postulación
     estado_postulacion = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
     fecha_solicitud = models.DateTimeField(auto_now_add=True)
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name="artesano",
+                                verbose_name="Cuenta de Usuario")
+
+    nombre_completo = models.CharField(max_length=150, verbose_name="Nombre Completo")
+    dni = models.CharField(max_length=10, unique=True, verbose_name="DNI")
+    email = models.EmailField(verbose_name="Correo Electrónico")
+    telefono = models.CharField(max_length=20, verbose_name="Teléfono / WhatsApp")
+    provincia = models.CharField(max_length=100, default="Catamarca", verbose_name="Provincia")
+    localidad = models.CharField(max_length=100, verbose_name="Localidad")
+
+    nombre_marca = models.CharField(max_length=100, blank=True, null=True,
+                                    verbose_name="Nombre del Emprendimiento / Marca")
+    rubro = models.ForeignKey(Rubro, on_delete=models.PROTECT, verbose_name="Rubro Principal")
+    descripcion_artesanias = models.TextField(verbose_name="Descripción de Productos")
+
+    estado_postulacion = models.CharField(max_length=20, choices=ESTADOS, default='pendiente',
+                                          verbose_name="Estado de Postulación")
+    fecha_registro = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Artesano"

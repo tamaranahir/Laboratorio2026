@@ -1,0 +1,86 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="container py-2">
+
+    <!-- Encabezado del Catálogo -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1 text-dark">Catálogo de Artesanías</h2>
+            <p class="text-muted mb-0">Explorá las piezas únicas de la Feria Internacional del Poncho</p>
+        </div>
+
+        <!-- SOLO se muestra si el artesano/usuario inició sesión -->
+        {% if user.is_authenticated %}
+            <a href="{% url 'productos:cargar' %}" class="btn-formulario-primario text-decoration-none px-4 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-plus-lg"></i> Publicar Producto
+            </a>
+        {% endif %}
+    </div>
+
+    <!-- Filtro por Categorías -->
+    <div class="mb-4">
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{% url 'productos:lista' %}"
+               class="btn btn-sm {% if not categoria_seleccionada %}btn-formulario-primario{% else %}btn-outline-secondary{% endif %} rounded-pill px-3">
+                Todas las categorías
+            </a>
+            {% for cat in categorias %}
+                <a href="{% url 'productos:lista' %}?categoria={{ cat.id }}"
+                   class="btn btn-sm {% if categoria_seleccionada == cat.id %}btn-formulario-primario{% else %}btn-outline-secondary{% endif %} rounded-pill px-3">
+                    {{ cat.nombre }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Grilla de Tarjetas de Productos -->
+    {% if productos %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            {% for prod in productos %}
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-poncho">
+                        <!-- Imagen del Producto -->
+                        <div class="position-relative bg-light text-center d-flex align-items-center justify-content-center" style="height: 220px;">
+                            {% if prod.imagen %}
+                                <img src="{{ prod.imagen.url }}" class="w-100 h-100 object-fit-cover" alt="{{ prod.nombre }}">
+                            {% else %}
+                                <div class="text-muted text-center p-3">
+                                    <i class="bi bi-image fs-1 opacity-50"></i>
+                                    <span class="d-block small">Sin foto</span>
+                                </div>
+                            {% endif %}
+                            <span class="badge bg-dark position-absolute top-0 end-0 m-3 px-2 py-1 rounded-pill small">
+                                {{ prod.categoria.nombre }}
+                            </span>
+                        </div>
+
+                        <!-- Detalle del Producto -->
+                        <div class="card-body d-flex flex-column p-3">
+                            <span class="text-muted small text-uppercase fw-semibold">
+                                <i class="bi bi-shop me-1"></i>{{ prod.artesano.nombre_marca|default:prod.artesano.nombre_completo }}
+                            </span>
+                            <h5 class="fw-bold my-2 text-dark">{{ prod.nombre }}</h5>
+                            <p class="text-muted small flex-grow-1">{{ prod.descripcion|default:"Sin descripción disponible."|truncatewords:12 }}</p>
+
+                            <div class="d-flex align-items-center justify-content-between pt-2 border-top mt-2">
+                                <span class="fs-5 fw-bold text-success">${{ prod.precio }}</span>
+                                <span class="badge bg-light text-secondary border">Stock: {{ prod.stock }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Estado Vacío -->
+        <div class="card-poncho text-center py-5 rounded-4 shadow-sm my-4">
+            <i class="bi bi-box-seam fs-1 text-muted d-block mb-2"></i>
+            <h4 class="fw-bold text-secondary">No hay productos disponibles en esta categoría</h4>
+            <p class="text-muted mb-0">Elegí otra categoría o volvé a consultar más tarde.</p>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
