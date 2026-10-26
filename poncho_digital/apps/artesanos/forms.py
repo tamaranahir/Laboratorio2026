@@ -4,28 +4,27 @@ from .models import Artesano
 class ArtesanoForm(forms.ModelForm):
     class Meta:
         model = Artesano
-        # Campos que completará el postulante
         fields = [
             'nombre_completo',
             'dni',
             'email',
             'telefono',
             'provincia',
-            'departamento',
+            'localidad',
             'nombre_marca',
             'rubro',
-            'descripcion_tecnicas',
+            'descripcion_artesanias',
         ]
         widgets = {
-            'nombre_completo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Escriba su nombre completo'}),
-            'dni': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 45678901'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'usuario@ejemplo.com'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 3834123456'}),
-            'provincia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Catamarca'}),
-            'departamento': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Departamento'}),
-            'nombre_marca': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Tejidos El Poncho'}),
+            'nombre_completo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Pérez Juan'}),
+            'dni': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número de DNI'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'correo@ejemplo.com'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'WhatsApp / Teléfono'}),
+            'provincia': forms.TextInput(attrs={'class': 'form-control'}),
+            'localidad': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ciudad / Departamento'}),
+            'nombre_marca': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de tu marca o emprendimiento'}),
             'rubro': forms.Select(attrs={'class': 'form-select'}),
-            'descripcion_tecnicas': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Describa brevemente sus técnicas y materiales...'}),
+            'descripcion_artesanias': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Describí brevemente tus productos o técnicas'}),
         }
 
     def __init__(self, *args, **kwargs):

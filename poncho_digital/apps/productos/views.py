@@ -23,21 +23,25 @@ def lista_productos(request):
 
 @login_required
 def cargar_producto(request):
-    # Verificamos que el usuario logueado tenga un perfil de Artesano
-    if not hasattr(request.user, 'artesano'):
-        messages.error(request, 'Su cuenta de usuario no está asociada a ningún perfil de artesano.')
-        return redirect('productos:lista')
+    # 1. Si no está logueado
+    if not request.user.is_authenticated:
+        messages.warning(request, 'Debes iniciar sesión para publicar productos.')
+        return redirect('index')
 
+    # 2. Verificar de forma segura si el usuario es un Artesano Aprobado (evita que el Admin rompa la vista)
+    if not hasattr(request.user, 'artesano') or request.user.artesano.estado_postulacion != 'aprobado':
+        messages.error(request, 'Solo los artesanos aprobados pueden publicar productos.')
+        return redirect('productos:lista')  # Redirige suavemente al catálogo
+
+    # 3. Flujo normal de carga de producto para el artesano
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
         if form.is_valid():
             producto = form.save(commit=False)
             producto.artesano = request.user.artesano
             producto.save()
-            messages.success(request, '¡Producto guardado exitosamente!')
-            return redirect('productos:mis_productos')  # <-- Ahora te lleva a Mis Productos
-        else:
-            messages.error(request, 'Ocurrió un error al cargar el producto. Revisá los campos.')
+            messages.success(request, '¡Producto publicado con éxito!')
+            return redirect('productos:mis_productos')
     else:
         form = ProductoForm()
 
