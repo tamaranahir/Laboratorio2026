@@ -89,19 +89,114 @@
                 </div>
             </section>
 
-            <!-- Sección: Plano Oficial del Predio Ferial -->
+ <!-- Sección: Plano Oficial del Predio Ferial -->
             <section id="mapa-predio" class="card-poncho mt-4 text-center">
-                <div class="mb-3">
+                    <div class="mb-3">
                     <h3 class="h4 fw-bold" style="color: #3d2314;">Plano Oficial del Predio Ferial 2026</h3>
-                    <p class="text-muted small mb-0">Distribución de pabellones, escenarios y sectores gastronómicos.</p>
-                </div>
-                <img src="{% static 'img/plano_predio.png' %}"
-                     alt="Plano del Predio Ferial"
-                     class="img-fluid rounded-3"
-                     style="max-height: 500px; width: auto;">
+                    <p class="text-muted small mb-0">
+                       <em>Usá la rueda del mouse para hacer zoom y mantené presionado el clic para moverte por el plano.</em>
+                    </p>
+                    </div>
+
+                  <!-- Contenedor del plano -->
+                   <div id="contenedor-mapa" class="overflow-hidden rounded-3 d-inline-block position-relative border" style="max-width: 100%; user-select: none;">
+                       <img id="img-plano"
+                            src="{% static 'img/plano_predio.png' %}"
+                            alt="Plano del Predio Ferial"
+                            class="img-fluid rounded-3"
+                            style="max-height: 500px; width: auto; transform-origin: center center; transition: transform 0.05s ease-out;">
+                   </div>
             </section>
 
         </section>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const contenedor = document.getElementById('contenedor-mapa');
+    const imgPlano = document.getElementById('img-plano');
+
+    if (contenedor && imgPlano) {
+        let scale = 1;
+        let isDragging = false;
+        let startX = 0, startY = 0;
+        let translateX = 0, translateY = 0;
+
+        // 1. ZOOM CON RUEDA DEL MOUSE
+        contenedor.addEventListener('wheel', function (e) {
+            e.preventDefault();
+            const speed = 0.15;
+
+            if (e.deltaY < 0) {
+                // Zoom In
+                scale = Math.min(scale + speed, 4.0);
+            } else {
+                // Zoom Out
+                scale = Math.max(scale - speed, 1.0);
+            }
+
+            // Si volvemos al tamaño normal, reseteamos posición
+            if (scale === 1) {
+                translateX = 0;
+                translateY = 0;
+            }
+
+            actualizarTransformacion();
+        }, { passive: false });
+
+        // 2. INICIAR ARRASTRE
+        contenedor.addEventListener('mousedown', function (e) {
+            if (scale > 1) {
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                contenedor.style.cursor = 'grabbing';
+            }
+        });
+
+        // 3. MOVER MIENTRAS SE ARRASTRA
+        window.addEventListener('mousemove', function (e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            actualizarTransformacion();
+        });
+
+        // 4. FINALIZAR ARRASTRE
+        window.addEventListener('mouseup', function () {
+            if (isDragging) {
+                isDragging = false;
+                contenedor.style.cursor = scale > 1 ? 'grab' : 'default';
+            }
+        });
+
+        // 5. APLICAR TRANSFORMACIÓN CON LÍMITES DE BORDES (CLAMPING)
+        function actualizarTransformacion() {
+            // Calculamos el desplazamiento máximo permitido según el zoom
+            const maxTranslateX = (imgPlano.offsetWidth * scale - contenedor.offsetWidth) / 2;
+            const maxTranslateY = (imgPlano.offsetHeight * scale - contenedor.offsetHeight) / 2;
+
+            // Restringimos horizontalmente (X)
+            if (maxTranslateX > 0) {
+                translateX = Math.min(Math.max(translateX, -maxTranslateX), maxTranslateX);
+            } else {
+                translateX = 0;
+            }
+
+            // Restringimos verticalmente (Y)
+            if (maxTranslateY > 0) {
+                translateY = Math.min(Math.max(translateY, -maxTranslateY), maxTranslateY);
+            } else {
+                translateY = 0;
+            }
+
+            // Aplicamos cambios
+            imgPlano.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            contenedor.style.cursor = scale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default';
+        }
+    }
+});
+</script>
 {% endblock %}

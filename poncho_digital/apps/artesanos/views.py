@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ArtesanoForm
-from .models import Artesano
+from .forms import ArtesanoForm, StandForm
+from .models import Artesano, Stand
+
 
 
 def registro_artesano(request):
@@ -53,4 +55,83 @@ def consultar_estado(request):
         'artesano': artesano,
         'buscado': buscado,
         'dni': dni
+    })
+
+    #-----------------------------------------------------------
+    #ASIGNACION DE STAND
+@login_required
+def gestion_stands(request):
+    # Control de seguridad: si no es administrador (is_staff), rebota la petición
+    if not request.user.is_staff:
+        messages.error(request, 'Acceso denegado. Esta sección es exclusiva para la administración.')
+        return redirect('index')
+
+    stands = Stand.objects.all()
+
+    if request.method == 'POST':
+        form = StandForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '¡Stand registrado correctamente!')
+            return redirect('artesanos:gestion_stands')
+    else:
+        form = StandForm()
+
+    return render(request, 'artesanos/gestion-stands.html', {
+        'stands': stands,
+        'form': form
+    })
+
+@login_required
+def eliminar_stand(request, stand_id):
+    if not request.user.is_staff:
+        messages.error(request, 'Acceso denegado.')
+        return redirect('index')
+
+    stand = get_object_or_404(Stand, id=stand_id)
+    numero = stand.numero
+    stand.delete()
+    messages.success(request, f'El Stand N° {numero} fue eliminado correctamente.')
+    return redirect('artesanos:gestion_stands')
+
+@login_required
+def editar_stand(request, stand_id):
+    if not request.user.is_staff:
+        messages.error(request, 'Acceso denegado.')
+        return redirect('index')
+
+    stand = get_object_or_404(Stand, id=stand_id)
+    stands = Stand.objects.all()
+
+    if request.method == 'POST':
+        # Pasamos instance=stand para que modifique el registro existente
+        form = StandForm(request.POST, instance=stand)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'¡El Stand N° {stand.numero} fue modificado con éxito!')
+            return redirect('artesanos:gestion_stands')
+    else:
+        # Carga el formulario con los datos actuales del stand
+        form = StandForm(instance=stand)
+
+    return render(request, 'artesanos/gestion-stands.html', {
+        'stands': stands,
+        'form': form,
+        'stand_editando': stand
+    })
+
+
+@login_required
+def mi_stand(request):
+    # 1. Buscamos el registro de artesano aprobado del usuario logueado
+    artesano = Artesano.objects.filter(user=request.user, estado_postulacion='aprobado').first()
+
+    stand = None
+    if artesano:
+        # 2. Buscamos el stand asignado a este artesano
+        stand = Stand.objects.filter(artesano=artesano).first()
+
+    return render(request, 'artesanos/mi-stand.html', {
+        'artesano': artesano,
+        'stand': stand
     })

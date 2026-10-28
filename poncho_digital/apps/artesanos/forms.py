@@ -1,5 +1,5 @@
 from django import forms
-from .models import Artesano
+from .models import Artesano, Stand
 
 class ArtesanoForm(forms.ModelForm):
     class Meta:
@@ -30,3 +30,36 @@ class ArtesanoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['rubro'].empty_label = "-- Seleccione un rubro --"
+
+
+    #-----------------------------------------------------------
+    #ASIGNACION DE STAND
+class StandForm(forms.ModelForm):
+    class Meta:
+        model = Stand
+        fields = ['numero', 'ubicacion', 'estado', 'artesano']
+        widgets = {'numero': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 105'}),
+               'ubicacion': forms.TextInput(
+                   attrs={'class': 'form-control', 'placeholder': 'Ej: Pabellón Textil - Sector A'}),
+               'estado': forms.Select(attrs={'class': 'form-select'}),
+               'artesano': forms.Select(attrs={'class': 'form-select'}),
+            }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # 1. Filtramos para que solo aparezcan los artesanos cuyo estado sea 'aprobado'
+        self.fields['artesano'].queryset = Artesano.objects.filter(estado_postulacion='aprobado')
+        self.fields['artesano'].empty_label = "-- Seleccionar Artesano Aprobado --"
+
+    def clean_artesano(self):
+        artesano = self.cleaned_data.get('artesano')
+        if artesano:
+            # Verificamos si este artesano ya posee un stand asignado
+            query = Stand.objects.filter(artesano=artesano)
+            if self.instance and self.instance.pk:
+                query = query.exclude(pk=self.instance.pk)
+
+            if query.exists():
+                raise forms.ValidationError(
+                    "La operación no se realizó porque este artesano ya tiene un stand asignado.")
+        return artesano
+

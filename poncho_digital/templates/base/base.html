@@ -50,17 +50,31 @@
                         </li>
                     {% endif %}
 
-                    <!-- 3. ARTESANO AUTENTICADO -->
+     <!-- 3. ARTESANO AUTENTICADO -->
                     {% if user.is_authenticated and user.artesano %}
-                         <li class="nav-item"><a class="nav-link" href="{% url 'productos:mis_productos' %}">Mis Productos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Mi Stand</a></li>
+                         <li class="nav-item">
+                             <a class="nav-link" href="{% url 'productos:mis_productos' %}">Mis Productos</a>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link" href="{% url 'artesanos:mi_stand' %}">
+                                Mi Stand
+                             </a>
+                         </li>
                     {% endif %}
 
-                    <!-- 4. ADMINISTRADOR -->
+      <!-- 4. ADMINISTRADOR -->
                     {% if user.is_staff %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'admin:artesanos_artesano_changelist' %}"">Evaluar Solicitudes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Gestión de Stands</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Panel Admin</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin:artesanos_artesano_changelist' %}">Evaluar Solicitudes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'artesanos:gestion_stands' %}">
+                                Gestión de Stands
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Panel Admin</a>
+                        </li>
                     {% endif %}
 
                     <!-- 5. USUARIO LOGUEADO -->

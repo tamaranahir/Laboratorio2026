@@ -13,22 +13,8 @@ class Rubro(models.Model):
     def __str__(self):
         return self.nombre
 
-# 2. Puestos en el Predio Ferial
-class Stand(models.Model):
-    numero = models.PositiveIntegerField(unique=True, verbose_name="Número de Stand")
-    pabellon = models.CharField(max_length=50, verbose_name="Pabellón")
-    artesano = models.OneToOneField('Artesano', on_delete=models.SET_NULL, null=True, blank=True, related_name='stand')
 
-    class Meta:
-        verbose_name = "Stand"
-        verbose_name_plural = "Stands"
-
-    def __str__(self):
-        estado = f"Ocupado por {self.artesano.nombre_marca}" if self.artesano and self.artesano.nombre_marca else "Disponible"
-        return f"Stand {self.numero} - {self.pabellon} ({estado})"
-
-
-# 3. Postulación y Perfil del Artesano
+# 2. Postulación y Perfil del Artesano
 class Artesano(models.Model):
     ESTADOS = (
         ('pendiente', 'Pendiente de Evaluación'),
@@ -68,3 +54,40 @@ class Artesano(models.Model):
     def __str__(self):
         marca = self.nombre_marca if self.nombre_marca else self.nombre_completo
         return f"{marca} ({self.nombre_completo})"
+
+
+# 3. Asignación y Puestos de Stand
+class Stand(models.Model):
+    ESTADO_CHOICES = [
+        ('disponible', 'Disponible'),
+        ('ocupado', 'Ocupado'),
+        ('mantenimiento', 'En Mantenimiento'),
+    ]
+
+    numero = models.IntegerField(unique=True, verbose_name="Número de Stand")
+    ubicacion = models.CharField(max_length=100, verbose_name="Ubicación o Pabellón")
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='disponible', verbose_name="Estado")
+    artesano = models.ForeignKey(
+        Artesano,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='stands',
+        verbose_name="Artesano Asignado"
+    )
+
+    class Meta:
+        verbose_name = "Stand"
+        verbose_name_plural = "Stands"
+
+    def save(self, *args, **kwargs):
+        # Si se asignó un artesano, el estado pasa automáticamente a 'ocupado'
+        if self.artesano:
+            self.estado = 'ocupado'
+        # Si se quita el artesano y no está en mantenimiento, vuelve a 'disponible'
+        elif self.estado == 'ocupado' and not self.artesano:
+            self.estado = 'disponible'
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Stand N° {self.numero} - {self.ubicacion} ({self.get_estado_display()})"
