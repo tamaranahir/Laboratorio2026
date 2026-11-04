@@ -1,207 +1,144 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Artesano | Poncho Digital</title>
-    <!-- Vinculamos Bootstrap 5-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Vinculamos archivo CSS externo -->
-    <link rel="stylesheet" href="../css/estilos.css" type="text/css">
-      <!-- JS de Bootstrap 5 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-    <!-- Cabecera Institucional responsiva -->
-    <header id="header-poncho" class="text-center" >
-        <div class="contenedor-flexible text-center">
-            <img src="../img/poncho-logo.png" alt="Logo" width="250">
-            <div class="texto-derecha">
-                <div class="container">
-                    <h1>Poncho Digital</h1>
-                    <p class="mb-0"><em>Portal Oficial de la Fiesta Nacional e Internacional del Poncho</em></p>
-                    <p class="mb-0"><em>Edición 2026</em></p>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
 
-      <!-- Menú de la Portada - Bootstrap -->
-    <nav class="navbar navbar-expand-lg navbar-poncho sticky-top py-2">
-        <div class="container">
-            <button class="navbar-toggler btn-menu" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion" aria-controls="menuNavegacion" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-center" id="menuNavegacion">
-                <ul class="navbar-nav gap-2">
-                    <li class="nav-item"><a class="nav-link" href="index.html" title="Ir a la Portada de Inicio">Inicio</a></li>
-                    <!-- Enlaces externos a las subpáginas ya creadas-->
-                    <li class="nav-item"><a class="nav-link" href="registro-artesano.html" title="Formulario de inscripción para artesanos">Postularse como artesano</a></li>
-                    <li class="nav-item"><a class="nav-link" href="productos.html" title="Administrar catálogo de productos del artesano">Gestionar mis productos</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Contenido Principal -->
-    <main class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-
-                <!-- Tarjeta Principal con clase .card-poncho -->
-                <section id="registro-solicitud" class="card-poncho">
-                    <h2>Formulario de Solicitud de Participación</h2>
-                    <p class="text-muted mb-4">
-                        Complete el siguiente formulario con sus datos personales y los de su emprendimiento. Una vez enviado, el Administrador evaluará su postulación para habilitar su participación en la feria.
-                    </p>
-
-                    <!-- Formulario de carga multipart con los controles requeridos -->
-                    <form id="form-registro-artesano" action="solicitud-enviada.html" method="post" enctype="multipart/form-data" novalidate>
-
-                    <!-- Grupo 1: Datos Personales -->
-                        <fieldset class="fieldset-poncho">
-                            <legend>Datos Personales del Artesano</legend>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label for="nombre_completo" class="form-label font-weight-bold">Apellido y Nombre:</label>
-                                    <input type="text" id="nombre_completo" name="nombre_completo" class="form-control" placeholder="Escriba su nombre completo" maxlength="100">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="dni" class="form-label">DNI (8 dígitos):</label>
-                                    <input type="text" id="dni" name="dni" class="form-control" inputmode="numeric" placeholder="Ej: 45678901">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
-                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="correo_electronico" class="form-label">Correo Electrónico:</label>
-                                    <input type="email" id="correo_electronico" name="correo_electronico" class="form-control" placeholder="usuario@ejemplo.com">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="telefono" class="form-label">Teléfono (con código de área sin 0 ni 15):</label>
-                                    <input type="tel" id="telefono" name="telefono" class="form-control" inputmode="numeric"  placeholder="Ej: 3834123456">
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="provincia" class="form-label">Provincia de Origen:</label>
-                                    <select id="provincia" name="provincia" class="form-select">
-                                        <option value="">-- Seleccione una provincia --</option>
-                                        <option value="catamarca">Catamarca</option>
-                                        <option value="cordoba">Córdoba</option>
-                                        <option value="salta">Salta</option>
-                                        <option value="santiago">Santiago del Estero</option>
-                                        <option value="tucuman">Tucumán</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="departamento" class="form-label">Departamento / Jurisdicción:</label>
-                                    <select id="departamento" name="departamento" class="form-select" disabled>
-                                        <option value="">-- Seleccione primero una provincia --</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-12 mt-3">
-                                    <label class="form-label d-block"><strong>Sexo:</strong></label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sexo" id="sexo_f" value="Femenino">
-                                        <label class="form-check-label" for="sexo_f">Femenino</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sexo" id="sexo_m" value="Masculino">
-                                        <label class="form-check-label" for="sexo_m">Masculino</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="sexo" id="sexo_nb" value="No binario">
-                                        <label class="form-check-label" for="sexo_nb">No binario</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <!-- Grupo 2: Datos del Emprendimiento -->
-                        <fieldset class="fieldset-poncho">
-                            <legend>Datos del Emprendimiento</legend>
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="nombre_marca" class="form-label">Nombre del Emprendimiento o Marca:</label>
-                                    <input type="text" id="nombre_marca" name="nombre_marca" class="form-control" placeholder="Ej: Tejidos El Poncho">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="rubro" class="form-label">Rubro o Especialidad:</label>
-                                    <select id="rubro" name="rubro" class="form-select">
-                                        <option value="">-- Seleccione un rubro --</option>
-                                        <optgroup label="Artesanías">
-                                            <option value="textil">Textil (Hilado, Telar, Vicuña)</option>
-                                            <option value="ceramica">Alfarería y Cerámica</option>
-                                            <option value="plateria">Platería y Metalurgia</option>
-                                            <option value="madera">Talla en Madera</option>
-                                        </optgroup>
-                                        <optgroup label="Productos Regionales">
-                                            <option value="gastronomia">Gastronomía y Dulces</option>
-                                            <option value="bodegas">Vinos y Licores</option>
-                                            <option value="aceites">Aceites y Conservas</option>
-                                        </optgroup>
-                                    </select>
-
-                                </div>
-                                <div class="col-12">
-                                    <label for="descripcion_tecnicas" class="form-label">Descripción de Técnicas y Materias Primas:</label>
-                                    <textarea id="descripcion_tecnicas" name="descripcion_tecnicas" class="form-control" rows="5" placeholder="Describa brevemente cómo elabora sus piezas y qué materiales utiliza..."></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <label for="foto_producto" class="form-label">Foto de los productos:</label>
-                                    <input type="file" id="foto_producto" name="foto_producto" class="form-control" accept="image/*" multiple>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <!-- Consentimiento bajo Juramento con el mismo formato de borde -->
-                        <div class="caja-checkbox-destacada d-flex align-items-center mb-4">
-                            <input type="checkbox" id="declaracion" name="declaracion" class="form-check-input">
-                            <label class="form-check-label text-dark" for="declaracion">
-                                <strong>Declaro bajo juramento</strong> que los productos a exponer son de elaboración propia y artesanal.
-                            </label>
-                        </div>
-
-                        <!-- Botonera adaptada con clases semánticas limpias (Sin estilos inline) -->
-                        <div class="d-flex justify-content-end gap-3 mt-4">
-                            <button type="reset" class="btn-formulario-secundario">Limpiar Formulario</button>
-                            <button type="submit" class="btn-formulario-primario">Enviar Solicitud</button>
-                        </div>
-
-                    </form>
-                </section>
-
-            </div>
-        </div>
-    </main>
-
-    <!-- Pie de pagina-->
-    <footer class="text-white pt-4 pb-3 mt-auto">
-        <div class="container ">
-
-            <!-- CONTENEDOR FLEXBOX: Separa el texto de copyright a la izquierda y el botón a la derecha -->
-            <div class="d-flex justify-content-center align-items-center flex-wrap gap-3 mb-3">
-                <p class="mb-0">Fiesta Nacional e Internacional del Poncho – Catamarca &copy; 2026</p>
-
-                <a href="#header-poncho" class="btn-footer" title="Volver al inicio de la página">
-                    ▲
-                </a>
-            </div>
-
-            <hr class="border-secondary my-3">
-            <p class="small text-center mb-0">
-                ¡Seguinos en nuestras redes!
-                <a href="https://www.facebook.com/fiestanacionaldelponcho" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>Facebook</strong></a> |
-                <a href="https://www.instagram.com/fiestanacionaldelponcho/" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>Instagram</strong></a> |
-                <a href="https://www.youtube.com/@culturacatamarca" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>YouTube</strong></a> |
-                <a href="https://www.tiktok.com/@fiestanacionaldelponcho" target="_blank" class="text-primary-emphasis text-decoration-none mx-2"><strong>TikTok</strong></a>
+        <!-- Tarjeta Principal con clase .card-poncho -->
+        <section id="registro-solicitud" class="card-poncho">
+            <h2 class="mb-3">Formulario de Solicitud de Participación</h2>
+            <p class="text-muted mb-4">
+                Complete el siguiente formulario con sus datos personales y los de su emprendimiento. Una vez enviado, el Administrador evaluará su postulación para habilitar su participación en la feria.
             </p>
-        </div>
-    </footer>
-<script src="../js/validaciones-registro-artesano.js"></script>
-</body>
-</html>
+
+            <!-- Formulario Django con Token CSRF -->
+            <form id="form-registro-artesano" method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert alert-danger rounded-3 shadow-sm mb-4" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Por favor, corregí los errores indicados abajo para poder enviar la postulación.</strong>
+                    </div>
+                {% endif %}
+
+                <!-- Grupo 1: Datos Personales -->
+                <fieldset class="fieldset-poncho">
+                    <legend>Datos Personales del Artesano</legend>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label for="{{ form.nombre_completo.id_for_label }}" class="form-label font-weight-bold">Apellido y Nombre:</label>
+                            {{ form.nombre_completo }}
+                            {% if form.nombre_completo.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.nombre_completo.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.dni.id_for_label }}" class="form-label">DNI (8 dígitos):</label>
+                            {{ form.dni }}
+                            {% if form.dni.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.dni.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">Correo Electrónico:</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.email.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.telefono.id_for_label }}" class="form-label">Teléfono:</label>
+                            {{ form.telefono }}
+                            {% if form.telefono.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.telefono.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.provincia.id_for_label }}" class="form-label">Provincia de Origen:</label>
+                            {{ form.provincia }}
+                            {% if form.provincia.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.provincia.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.departamento.id_for_label }}" class="form-label">Departamento / Jurisdicción:</label>
+                            {{ form.departamento }}
+                            {% if form.departamento.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.departamento.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Grupo 2: Datos del Emprendimiento -->
+                <fieldset class="fieldset-poncho">
+                    <legend>Datos del Emprendimiento</legend>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.nombre_marca.id_for_label }}" class="form-label">Nombre del Emprendimiento o Marca:</label>
+                            {{ form.nombre_marca }}
+                            {% if form.nombre_marca.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.nombre_marca.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="{{ form.rubro.id_for_label }}" class="form-label">Rubro o Especialidad:</label>
+                            {{ form.rubro }}
+                            {% if form.rubro.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.rubro.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label for="{{ form.descripcion_tecnicas.id_for_label }}" class="form-label">Descripción de Técnicas y Materias Primas:</label>
+                            {{ form.descripcion_tecnicas }}
+                            {% if form.descripcion_tecnicas.errors %}
+                                <div class="text-danger small mt-1">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ form.descripcion_tecnicas.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="caja-checkbox-destacada d-flex align-items-center mb-4 mt-3">
+                    <input type="checkbox" id="declaracion" name="declaracion" class="form-check-input">
+                    <label class="form-check-label text-dark ms-2" for="declaracion">
+                        <strong>Declaro bajo juramento</strong> que los productos a exponer son de elaboración propia y artesanal.
+                    </label>
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-4">
+                    <button type="reset" class="btn-formulario-secundario">Limpiar Formulario</button>
+                    <button type="submit" class="btn-formulario-primario">Enviar Solicitud</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</div>
+{% endblock %}
