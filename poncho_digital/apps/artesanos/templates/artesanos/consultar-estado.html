@@ -14,7 +14,16 @@
             <!-- Formulario de Búsqueda por DNI -->
             <form method="get" action="{% url 'artesanos:consultar' %}" class="mb-4">
                 <div class="input-group input-group-lg shadow-sm rounded-3 overflow-hidden">
-                    <input type="text" name="dni" class="form-control border-0 bg-light" placeholder="Ingrese su DNI (ej: 45678901)" value="{{ dni }}" required>
+                    <input type="text"
+                           name="dni"
+                           class="form-control border-0 bg-light"
+                           placeholder="Ingrese su DNI (ej: 45678901)"
+                           value="{{ dni }}"
+                           maxlength="8"
+                           inputmode="numeric"
+                           pattern="[0-9]{8}"
+                           title="El DNI debe contener exactamente 8 dígitos numéricos"
+                           required>
                     <button class="btn-formulario-primario px-4" type="submit">
                         <i class="bi bi-search me-1"></i> Buscar
                     </button>

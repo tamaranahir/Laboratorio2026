@@ -65,7 +65,7 @@
       <!-- 4. ADMINISTRADOR -->
                     {% if user.is_staff %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:artesanos_artesano_changelist' %}">Evaluar Solicitudes</a>
+                            <a class="nav-link" href="{% url 'artesanos:evaluar_solicitudes' %}">Evaluar Solicitudes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'artesanos:gestion_stands' %}">

@@ -58,6 +58,17 @@ class Artesano(models.Model):
 
 # 3. Asignación y Puestos de Stand
 class Stand(models.Model):
+    PABELLON_CHOICES = [
+        ('pabellon_artesanos', 'Pabellón Artesanos'),
+        ('pabellon_turismo', 'Pabellón de Turismo'),
+        ('pabellon_comercial', 'Pabellón Comercial'),
+        ('pabellon_mayor', 'Pabellón Mayor'),
+        ('pabellon_cultural', 'Pabellón Cultural'),
+        ('pabellon_produccion', 'Pabellón Producción'),
+        ('sector_gastronomia', 'Sector Gastronomía'),
+        ('sector_emprendedores', 'Sector Emprendedores'),
+    ]
+
     ESTADO_CHOICES = [
         ('disponible', 'Disponible'),
         ('ocupado', 'Ocupado'),
@@ -65,7 +76,14 @@ class Stand(models.Model):
     ]
 
     numero = models.IntegerField(unique=True, verbose_name="Número de Stand")
-    ubicacion = models.CharField(max_length=100, verbose_name="Ubicación o Pabellón")
+
+    ubicacion = models.CharField(
+        max_length=50,
+        choices=PABELLON_CHOICES,
+        default='pabellon_artesanos',
+        verbose_name="Pabellón / Sector"
+    )
+
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='disponible', verbose_name="Estado")
     artesano = models.ForeignKey(
         Artesano,
