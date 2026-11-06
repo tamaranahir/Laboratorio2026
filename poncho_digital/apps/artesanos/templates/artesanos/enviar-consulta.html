@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+
+{% block contenido %}
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    .card-evaluar {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
+    .header-evaluar {
+        background-color: #294268;
+        color: #ffffff;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .titulo-evaluar {
+        color: #ebdcb9;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+</style>
+
+<div class="container py-3">
+    <div class="card card-evaluar col-md-8 mx-auto mb-5">
+        <div class="header-evaluar">
+            <h2 class="h4 titulo-evaluar">
+                <i class="bi bi-chat-left-dots-fill me-2"></i>Consultar a {{ artesano.nombre_completo }}
+            </h2>
+            <p class="small mb-0 text-white-50">Enviá tu duda directamente al artesano</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+            {% if producto %}
+                <div class="alert alert-light border rounded-3 mb-4 d-flex align-items-center gap-2">
+                    <i class="bi bi-bag-check-fill text-success fs-5"></i>
+                    <div>
+                        <strong class="d-block text-dark">Consulta sobre el producto:</strong>
+                        <span class="text-secondary">{{ producto.nombre }}</span>
+                    </div>
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_asunto" class="form-label fw-bold text-dark">Motivo de la consulta:</label>
+                    {{ form.asunto }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_mensaje" class="form-label fw-bold text-dark">Tu mensaje o pregunta:</label>
+                    {{ form.mensaje }}
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="{% url 'artesanos:mis_consultas' %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                    <button type="submit" class="btn px-4" style="background-color: #294268; color: #ebdcb9; font-weight: 600;">
+                        Enviar Consulta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

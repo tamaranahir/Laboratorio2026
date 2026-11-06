@@ -1,134 +1,147 @@
 {% extends 'base/base.html' %}
 
-{% block content %}
-<div class="container my-4">
-    <h2 class="fw-bold mb-1 text-dark">Gestión y Asignación de Stands por Pabellón</h2>
+{% block contenido %}
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="card shadow border-0 rounded-4 overflow-hidden mb-4">
+    <div class="card-header text-white p-4 text-center" style="background-color: #294268;">
+        <h2 class="h3 fw-bold mb-1" style="color: #ebdcb9;">
+            <i class="bi bi-shop me-2"></i>Gestión e Infraestructura de Stands
+        </h2>
+        <p class="small mb-0 text-white-50">Asignación física de espacios en los Pabellones de la Feria</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Formulario de Asignación -->
+    {% if stand_editando %}
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 rounded-3" style="border-top: 4px solid #9a6f15 !important;">
+            <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #294268;">
+                <h5 class="card-title mb-0 fw-bold fs-6" style="color: #ebdcb9;">
+                    <i class="bi bi-pencil-square me-1"></i>Asignar Stand N° {{ stand_editando.numero }}
+                </h5>
+                <a href="{% url 'artesanos:gestion_stands' %}" class="btn btn-sm btn-outline-light rounded-circle" title="Cancelar">
+                    <i class="bi bi-x-lg"></i>
+                </a>
             </div>
-        {% endfor %}
+            <div class="card-body bg-light">
+                <p class="mb-3 small"><strong>Ubicación:</strong> <span class="badge bg-secondary">{{ stand_editando.ubicacion }}</span></p>
+
+                <form method="post" action="{% url 'artesanos:editar_stand' stand_editando.id %}">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.artesano.id_for_label }}" class="form-label fw-semibold small" style="color: #294268;">Artesano Aprobado:</label>
+                        {{ form.artesano }}
+                        {% if form.artesano.errors %}
+                            <div class="text-danger small mt-1 fw-bold">{{ form.artesano.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn text-white w-100 fw-bold shadow-sm rounded-pill" style="background-color: #294268;">
+                        Guardar Asignación
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
     {% endif %}
 
-    <div class="row g-4 mt-1">
-        <!-- Columna 1: Formulario de Asignación (Aparece al presionar "Asignar") -->
-        {% if stand_editando %}
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 sticky-top" style="top: 20px; border-top: 4px solid #c59b27 !important;">
-                <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #1e3a60;">
-                    <h5 class="card-title mb-0 fw-bold">
-                        Asignar Stand N° {{ stand_editando.numero }}
+    <!-- Listado Agrupado por Pabellón -->
+    <div class="{% if stand_editando %}col-md-8{% else %}col-md-12{% endif %}">
+
+        {% regroup stands by ubicacion as pabellones_list %}
+
+        {% for pabellon in pabellones_list %}
+            <div class="card shadow-sm border-0 mb-4 rounded-3 overflow-hidden" style="border-top: 4px solid #9a6f15 !important;">
+                <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #294268;">
+                    <h5 class="card-title mb-0 fw-bold fs-6" style="color: #ebdcb9;">
+                        <i class="bi bi-building me-2"></i>{{ pabellon.grouper }}
                     </h5>
-                    <a href="{% url 'artesanos:gestion_stands' %}" class="btn btn-sm btn-outline-light">Cancelar</a>
+                    <span class="badge bg-light text-dark">{{ pabellon.list|length }} Puestos</span>
                 </div>
-                <div class="card-body bg-light">
-                    <p class="mb-2"><strong>Pabellón:</strong> {{ stand_editando.get_ubicacion_display }}</p>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0 text-center">
+                            <thead class="table-light text-secondary small">
+                                <tr>
+                                    <th class="py-2">N° Stand</th>
+                                    <th class="py-2">Estado</th>
+                                    <th class="py-2">Artesano Asignado</th>
+                                    <th class="py-2">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for stand in pabellon.list %}
+                                    <tr {% if stand_editando and stand_editando.id == stand.id %}class="table-warning"{% endif %}>
+                                        <td><strong style="color: #294268; font-size: 1.05rem;">N° {{ stand.numero }}</strong></td>
+                                        <td>
+                                            {% if stand.artesano %}
+                                                <span class="badge bg-success">Ocupado</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">Disponible</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if stand.artesano %}
+                                                <span class="fw-bold text-dark"><i class="bi bi-person-check-fill text-success me-1"></i>{{ stand.artesano.nombre_completo }}</span>
+                                            {% else %}
+                                                <em class="text-muted small"><i class="bi bi-dash-circle me-1"></i>Sin asignar</em>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <!-- Botones -->
+                                            <a href="{% url 'artesanos:editar_stand' stand.id %}"
+                                               class="btn btn-sm btn-outline-primary me-1 rounded-pill"
+                                               title="Asignar artesano">
+                                               <i class="bi bi-pencil-square"></i> Asignar
+                                            </a>
 
-                    <form method="post" action="{% url 'artesanos:editar_stand' stand_editando.id %}">
-                        {% csrf_token %}
+                                            {% if stand.artesano %}
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-warning rounded-pill"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalLiberar{{ stand.id }}"
+                                                        title="Liberar Stand">
+                                                    <i class="bi bi-x-circle"></i> Liberar
+                                                </button>
+                                            {% endif %}
 
-                        <div class="mb-3">
-                            <label for="{{ form.artesano.id_for_label }}" class="form-label fw-semibold" style="color: #1e3a60;">Artesano Aprobado:</label>
-                            {{ form.artesano }}
-                            {% if form.artesano.errors %}
-                                <div class="text-danger small mt-1">{{ form.artesano.errors.0 }}</div>
-                            {% endif %}
-                            <small class="text-muted d-block mt-1">Solo figuran artesanos con postulación aprobada.</small>
-                        </div>
+                                            <div class="modal fade" id="modalLiberar{{ stand.id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+                                                        <div class="modal-body text-center">
+                                                            <i class="bi bi-exclamation-triangle-fill text-warning fs-1 mb-2 d-block"></i>
+                                                            <h4 class="fw-bold text-dark">¿Liberar Stand N° {{ stand.numero }}?</h4>
+                                                            <p class="text-muted small">
+                                                                Vas a desasignar a <strong>"{{ stand.artesano.nombre_completo }}"</strong> del {{ stand.ubicacion }}. El puesto volverá a quedar disponible.
+                                                            </p>
+                                                            <div class="d-flex gap-2 justify-content-center mt-4">
+                                                                <button type="button" class="btn btn-light rounded-pill px-4 fw-semibold" data-bs-dismiss="modal">Cancelar</button>
+                                                                <a href="{% url 'artesanos:eliminar_stand' stand.id %}" class="btn btn-warning text-dark rounded-pill px-4 fw-semibold shadow-sm">
+                                                                    Sí, Liberar
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                        <div class="mb-3">
-                            <label for="{{ form.estado.id_for_label }}" class="form-label fw-semibold" style="color: #1e3a60;">Estado del Puesto:</label>
-                            {{ form.estado }}
-                        </div>
-
-                        <button type="submit" class="btn text-white w-100 fw-bold shadow-sm" style="background-color: #1e3a60;">
-                            <i class="bi bi-check-circle" style="color: #c59b27;"></i> Guardar Asignación
-                        </button>
-                    </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endif %}
+        {% empty %}
+            <div class="alert alert-info text-center py-4 rounded-3">
+                <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+                No hay stands registrados en la base de datos.
+            </div>
+        {% endfor %}
 
-        <!-- Columna 2: Listado Agrupado por Pabellón -->
-        <div class="{% if stand_editando %}col-md-8{% else %}col-md-12{% endif %}">
-
-            {% regroup stands by get_ubicacion_display as pabellones_list %}
-
-            {% for pabellon in pabellones_list %}
-                <div class="card shadow-sm border-0 mb-4" style="border-top: 4px solid #c59b27 !important;">
-                    <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #1e3a60;">
-                        <h5 class="card-title mb-0 fw-bold">
-                            <i class="bi bi-building me-2" style="color: #c59b27;"></i>{{ pabellon.grouper }}
-                        </h5>
-                        <span class="badge bg-light text-dark">{{ pabellon.list|length }} Stands</span>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0 text-center">
-                                <thead class="table-light text-secondary">
-                                    <tr>
-                                        <th class="py-2">N° Stand</th>
-                                        <th class="py-2">Estado</th>
-                                        <th class="py-2">Artesano Asignado</th>
-                                        <th class="py-2">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for stand in pabellon.list %}
-                                        <tr {% if stand_editando and stand_editando.id == stand.id %}class="table-warning"{% endif %}>
-                                            <td><strong style="color: #1e3a60; font-size: 1.1rem;">N° {{ stand.numero }}</strong></td>
-                                            <td>
-                                                {% if stand.estado == 'disponible' %}
-                                                    <span class="badge bg-success">Disponible</span>
-                                                {% elif stand.estado == 'ocupado' %}
-                                                    <span class="badge bg-danger">Ocupado</span>
-                                                {% else %}
-                                                    <span class="badge bg-warning text-dark">Mantenimiento</span>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if stand.artesano %}
-                                                    <span class="fw-bold text-dark"><i class="bi bi-person-check-fill text-success me-1"></i>{{ stand.artesano.nombre_completo }}</span>
-                                                {% else %}
-                                                    <em class="text-muted"><i class="bi bi-dash-circle me-1"></i>Sin asignar</em>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                <!-- Botón Asignar -->
-                                                <a href="{% url 'artesanos:editar_stand' stand.id %}"
-                                                   class="btn btn-sm btn-outline-primary me-1"
-                                                   title="Asignar artesano">
-                                                   <i class="bi bi-pencil-square"></i> Asignar
-                                                </a>
-
-                                                <!-- Botón Liberar -->
-                                                {% if stand.artesano or stand.estado != 'disponible' %}
-                                                    <a href="{% url 'artesanos:eliminar_stand' stand.id %}"
-                                                       class="btn btn-sm btn-outline-warning"
-                                                       onclick="return confirm('¿Desasignar el artesano y liberar el Stand N° {{ stand.numero }}?');"
-                                                       title="Liberar Stand">
-                                                       <i class="bi bi-x-circle"></i> Liberar
-                                                    </a>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <div class="alert alert-info text-center py-4">
-                    No hay stands registrados en la base de datos.
-                </div>
-            {% endfor %}
-
-        </div>
     </div>
 </div>
 {% endblock %}

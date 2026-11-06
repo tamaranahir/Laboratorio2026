@@ -40,14 +40,12 @@
                 </div>
             </div>
 
-            <!-- Grilla de Tarjetas de Solicitudes -->
             {% if solicitudes %}
                 <div class="row row-cols-1 row-cols-md-2 g-4">
                     {% for artesano in solicitudes %}
                         <div class="col">
                             <div class="card h-100 border-0 rounded-3 shadow-sm" style="background-color: #ffffff; border: 1px solid #000000 !important;">
 
-                                <!-- Cabecera de la Tarjeta Individual -->
                                 <div class="card-header bg-transparent border-bottom-0 pt-3 px-4 d-flex justify-content-between align-items-center">
                                     <span class="badge px-3 py-2 rounded-pill fw-bold {% if artesano.estado_postulacion == 'pendiente' %}bg-warning text-dark{% elif artesano.estado_postulacion == 'aprobado' %}bg-success text-white{% else %}bg-danger text-white{% endif %}">
                                         {% if artesano.estado_postulacion == 'pendiente' %}
@@ -80,7 +78,6 @@
                                         </ul>
                                     </div>
 
-                                    <!-- Caja de Descripción -->
                                     <div class="p-3 rounded-3" style="background-color: #faf8f5; border: 1px solid #ebdcb9;">
                                         <strong class="d-block small mb-1" style="color: #294268;">Descripción de Técnicas:</strong>
                                         <p class="small text-muted mb-0">
@@ -112,7 +109,6 @@
                 </div>
             {% else %}
 
-            <!-- Estado Vacío -->
                 <div class="text-center py-5 rounded-3" style="background-color: #faf8f5; border: 1px solid #ebdcb9;">
                     <i class="bi bi-inbox fs-1 d-block mb-2" style="color: #9a6f15;"></i>
                     <h5 class="fw-bold" style="color: #294268;">No hay solicitudes en este estado</h5>
@@ -122,7 +118,6 @@
 
         </div>
 
-        <!-- Pie Institucional -->
         <div class="card-footer bg-light border-0 text-center py-3">
             <small class="text-muted">Ministerio de Cultura y Turismo — Gobierno de la Provincia de Catamarca</small>
         </div>

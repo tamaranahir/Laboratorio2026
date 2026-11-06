@@ -41,7 +41,7 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}#mapa-predio">Plano del Predio</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'productos:lista' %}">Catálogo de Artesanías</a></li>
 
-                    <!-- 2. PÚBLICO NO LOGUEADO -->
+                    <!-- 2. VISITANTES -->
                     {% if not user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'artesanos:registro' %}">Postularse como Artesano</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'artesanos:consultar' %}">Consultar Estado de Trámite</a></li>
@@ -50,8 +50,8 @@
                         </li>
                     {% endif %}
 
-     <!-- 3. ARTESANO AUTENTICADO -->
-                    {% if user.is_authenticated and user.artesano %}
+                    <!-- 3. ARTESANO APROBADO -->
+                    {% if user.is_authenticated and user.artesano and user.artesano.estado_postulacion == 'aprobado' %}
                          <li class="nav-item">
                              <a class="nav-link" href="{% url 'productos:mis_productos' %}">Mis Productos</a>
                          </li>
@@ -60,25 +60,70 @@
                                 Mi Stand
                              </a>
                          </li>
+                         <li class="nav-item">
+                             <a class="nav-link" href="{% url 'artesanos:consultas_recibidas' %}">
+                                Consultas Recibidas
+                             </a>
+                         </li>
                     {% endif %}
 
-      <!-- 4. ADMINISTRADOR -->
+                    <!-- 4. ADMINISTRADOR -->
                     {% if user.is_staff %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'artesanos:evaluar_solicitudes' %}">Evaluar Solicitudes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'artesanos:gestion_stands' %}">
-                                Gestión de Stands
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #082046;">
+                                Administración
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Panel Admin</a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2 overflow-hidden" aria-labelledby="adminMenuDropdown" style="min-width: 240px; border-top: 3px solid #9a6f15 !important;">
+
+                                <!-- Clasificación -->
+                                <li><h6 class="dropdown-header text-uppercase small fw-bold" style="color: #294268;">Clasificación</h6></li>
+                                <li>
+                                    <a class="dropdown-item py-2 fw-semibold" href="{% url 'productos:gestion_categorias' %}" style="color: #294268;">
+                                        <i class="bi bi-tags-fill me-2" style="color: #9a6f15;"></i> Categorías
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2 fw-semibold" href="{% url 'artesanos:gestion_rubros' %}" style="color: #294268;">
+                                        <i class="bi bi-tools me-2" style="color: #9a6f15;"></i> Rubros
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider my-1"></li>
+
+                                <!-- Gestion de la feria -->
+                                <li><h6 class="dropdown-header text-uppercase small fw-bold" style="color: #294268;">Gestión de la Feria</h6></li>
+                                <li>
+                                    <a class="dropdown-item py-2 fw-semibold" href="{% url 'artesanos:evaluar_solicitudes' %}" style="color: #294268;">
+                                        <i class="bi bi-clipboard-check-fill me-2" style="color: #9a6f15;"></i> Evaluar Solicitudes
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2 fw-semibold" href="{% url 'artesanos:gestion_stands' %}" style="color: #294268;">
+                                        <i class="bi bi-shop me-2" style="color: #9a6f15;"></i> Gestión de Stands
+                                    </a>
+                                </li>
+                                <li>
+                                  <a class="dropdown-item py-2 fw-semibold" href="{% url 'artesanos:panel_reportes' %}" style="color: #294268;">
+                                        <i class="bi bi-bar-chart-line-fill me-2" style="color: #9a6f15;"></i> Reportes
+                                  </a>
+                               </li>
+                                <li><hr class="dropdown-divider my-1"></li>
+                                <li>
+                                    <a class="dropdown-item py-2 text-muted fw-semibold" href="{% url 'admin:index' %}" target="_blank">
+                                        <i class="bi bi-gear-fill me-2"></i> Panel Admin
+                                    </a>
+                                </li>
+
+                            </ul>
                         </li>
                     {% endif %}
 
-                    <!-- 5. USUARIO LOGUEADO -->
+                    <!-- 5. VISITANTE CON CUENTA (Consulta) -->
                     {% if user.is_authenticated %}
+                        {% if not user.artesano and not user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'artesanos:mis_consultas' %}"> Mis Consultas </a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item small fw-bold ms-lg-2 text-dark">
                             <i class="bi bi-person-circle me-1"></i>{{ user.username }}
                         </li>
@@ -110,7 +155,7 @@
                         {% endif %}
                         <div>{{ message }}</div>
                         <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    </div>
                 {% endfor %}
             </div>
         {% endif %}

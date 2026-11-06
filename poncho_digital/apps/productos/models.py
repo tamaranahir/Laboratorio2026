@@ -13,7 +13,6 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 
-
 # 2. Catálogo de productos
 class Producto(models.Model):
     artesano = models.ForeignKey(Artesano, on_delete=models.CASCADE, related_name="productos", verbose_name="Artesano")

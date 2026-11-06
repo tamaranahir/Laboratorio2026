@@ -1,0 +1,94 @@
+{% extends 'base/base.html' %}
+
+{% block contenido %}
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    .card-evaluar {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
+    .header-evaluar {
+        background-color: #294268;
+        color: #ffffff;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .titulo-evaluar {
+        color: #ebdcb9;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+    .chat-pregunta {
+        background-color: #ffffff;
+        border-left: 4px solid #294268;
+        border-radius: 0.5rem;
+    }
+    .chat-respuesta {
+        background-color: #f8f9fa;
+        border-left: 4px solid #198754;
+        border-radius: 0.5rem;
+    }
+</style>
+
+<div class="container py-3">
+    <div class="card card-evaluar mb-5">
+        <div class="header-evaluar">
+            <h2 class="h3 titulo-evaluar">
+                <i class="bi bi-chat-dots-fill me-2"></i>Mis Consultas
+            </h2>
+            <p class="small mb-0 text-white-50">Historial de dudas y respuestas privadas sobre productos y precios</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+            {% for consulta in consultas %}
+                <div class="card border rounded-3 mb-4 overflow-hidden shadow-sm">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong style="color: #294268;">Artesano: {{ consulta.artesano.nombre_completo }}</strong>
+                            {% if consulta.producto %}
+                                <span class="badge bg-secondary ms-2">Producto: {{ consulta.producto.nombre }}</span>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">{{ consulta.fecha_envio|date:"d/m/Y H:i" }} hs</small>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <!-- Pregunta del usuario -->
+                        <div class="chat-pregunta p-3 mb-3">
+                            <div class="fw-bold text-dark mb-1">
+                                <i class="bi bi-question-circle-fill me-1" style="color: #294268;"></i> Tu pregunta ({{ consulta.get_asunto_display }}):
+                            </div>
+                            <p class="mb-0 text-secondary">{{ consulta.mensaje }}</p>
+                        </div>
+
+                        <!-- Respuesta del artesano -->
+                        {% if consulta.respondido %}
+                            <div class="chat-respuesta p-3 ms-4">
+                                <div class="fw-bold text-success mb-1">
+                                    <i class="bi bi-reply-fill me-1"></i> Respuesta de {{ consulta.artesano.nombre_completo }}
+                                    <small class="text-muted fw-normal">({{ consulta.fecha_respuesta|date:"d/m/Y H:i" }} hs)</small>:
+                                </div>
+                                <p class="mb-0 text-dark">{{ consulta.respuesta }}</p>
+                            </div>
+                        {% else %}
+                            <div class="ms-4 p-2 bg-light rounded text-muted small fst-italic">
+                                <i class="bi bi-clock me-1"></i> Pendiente de respuesta por parte del artesano...
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-chat-left-text fs-1 d-block mb-2"></i>
+                    <p>Aún no realizaste ninguna consulta a los artesanos.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

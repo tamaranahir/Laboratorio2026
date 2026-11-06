@@ -13,7 +13,6 @@ class Rubro(models.Model):
     def __str__(self):
         return self.nombre
 
-
 # 2. Postulación y Perfil del Artesano
 class Artesano(models.Model):
     ESTADOS = (
@@ -55,18 +54,16 @@ class Artesano(models.Model):
         marca = self.nombre_marca if self.nombre_marca else self.nombre_completo
         return f"{marca} ({self.nombre_completo})"
 
-
 # 3. Asignación y Puestos de Stand
 class Stand(models.Model):
     PABELLON_CHOICES = [
-        ('pabellon_artesanos', 'Pabellón Artesanos'),
+        ('pabellon_artesanias_1', 'Pabellón de Artesanías 1'),
+        ('pabellon_artesanias_2', 'Pabellón de Artesanías 2'),
         ('pabellon_turismo', 'Pabellón de Turismo'),
-        ('pabellon_comercial', 'Pabellón Comercial'),
-        ('pabellon_mayor', 'Pabellón Mayor'),
-        ('pabellon_cultural', 'Pabellón Cultural'),
-        ('pabellon_produccion', 'Pabellón Producción'),
-        ('sector_gastronomia', 'Sector Gastronomía'),
-        ('sector_emprendedores', 'Sector Emprendedores'),
+        ('poncho_diseno', 'Poncho Diseño'),
+        ('mercado_cultural', 'Mercado Cultural'),
+        ('sector_gastronomico', 'Sector Gastronómico / Foodtrucks'),
+        ('sector_comercial', 'Sector Comercial'),
     ]
 
     ESTADO_CHOICES = [
@@ -109,3 +106,35 @@ class Stand(models.Model):
 
     def __str__(self):
         return f"Stand N° {self.numero} - {self.ubicacion} ({self.get_estado_display()})"
+
+#️🚨 VALE AGREGA ESTO AL FINAL- MODELO PARA LAS CONSULTAS#
+
+class Consulta(models.Model):
+    ASUNTOS = [
+        ('precio', 'Consulta sobre Precios / Presupuesto'),
+        ('producto', 'Detalles o Medidas del Producto'),
+        ('envio', 'Envíos o Retiro en Feria / Stand'),
+        ('personalizado', 'Pedido Personalizado / Encargo'),
+        ('otro', 'Otro motivo'),
+    ]
+
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='consultas_realizadas')
+    artesano = models.ForeignKey('Artesano', on_delete=models.CASCADE, related_name='consultas_recibidas')
+    producto = models.ForeignKey('productos.Producto', on_delete=models.SET_NULL, null=True, blank=True, related_name='consultas')
+
+    asunto = models.CharField(max_length=50, choices=ASUNTOS, default='producto')
+    mensaje = models.TextField(verbose_name="Pregunta o Mensaje")
+
+    respuesta = models.TextField(blank=True, null=True, verbose_name="Respuesta del Artesano")
+    respondido = models.BooleanField(default=False)
+
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+    fecha_respuesta = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['-fecha_envio']
+        verbose_name = "Consulta"
+        verbose_name_plural = "Consultas"
+
+    def __str__(self):
+        return f"Consulta de {self.usuario.username} a {self.artesano.nombre_completo} ({self.get_asunto_display()})"

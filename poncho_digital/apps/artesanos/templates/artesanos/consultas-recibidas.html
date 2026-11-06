@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% block contenido %}
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    .card-evaluar {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
+    .header-evaluar {
+        background-color: #294268;
+        color: #ffffff;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .titulo-evaluar {
+        color: #ebdcb9;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+</style>
+
+<div class="container py-3">
+    <div class="card card-evaluar mb-5">
+        <div class="header-evaluar">
+            <h2 class="h3 titulo-evaluar">
+                <i class="bi bi-inbox-fill me-2"></i>Consultas Recibidas
+            </h2>
+            <p class="small mb-0 text-white-50">Gestioná y respondé las dudas de los visitantes de tu stand</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+            {% for consulta in consultas %}
+                <div class="card border rounded-3 mb-4 overflow-hidden shadow-sm">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong style="color: #294268;"><i class="bi bi-person-fill"></i> Cliente: {{ consulta.usuario.username }}</strong>
+                            {% if consulta.producto %}
+                                <span class="badge bg-secondary ms-2">Producto: {{ consulta.producto.nombre }}</span>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">{{ consulta.fecha_envio|date:"d/m/Y H:i" }} hs</small>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div class="p-3 bg-light rounded-3 mb-3 border-start border-4 border-primary">
+                            <strong class="d-block mb-1 text-dark">Motivo: {{ consulta.get_asunto_display }}</strong>
+                            <p class="mb-0 text-secondary">{{ consulta.mensaje }}</p>
+                        </div>
+
+                        {% if consulta.respondido %}
+                            <div class="p-3 bg-success-subtle rounded-3 border-start border-4 border-success">
+                                <strong class="d-block text-success mb-1">
+                                    <i class="bi bi-check-circle-fill"></i> Tu Respuesta ({{ consulta.fecha_respuesta|date:"d/m/Y H:i" }} hs):
+                                </strong>
+                                <p class="mb-0 text-dark">{{ consulta.respuesta }}</p>
+                            </div>
+                        {% else %}
+                            <div class="d-flex justify-content-end">
+                                <a href="{% url 'artesanos:responder_consulta' consulta.id %}" class="btn text-white px-4" style="background-color: #294268;">
+                                    <i class="bi bi-reply-fill me-1"></i> Responder Consulta
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox fs-1 d-block mb-2"></i><p>Aún no recibiste consultas de clientes.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,7 +12,6 @@
     </div>
 
     {% if stand %}
-        <!-- CASO 1: Ya tienes stand asignado -->
         <div class="alert border-0 rounded-3 p-3 mb-4 d-flex align-items-center gap-3" style="background-color: #f0f7f4; border-left: 4px solid #198754 !important;">
             <i class="bi bi-check-circle-fill fs-3 text-success flex-shrink-0"></i>
             <div>
@@ -22,11 +21,10 @@
         </div>
 
         <div class="row g-4 align-items-stretch">
-            <!-- Ficha del Stand asignado -->
             <div class="col-md-6">
                 <div class="p-4 rounded-3 h-100 bg-white shadow-sm" style="border: 1px solid #e2e8f0;">
                     <span class="badge px-3 py-2 rounded-pill fw-bold bg-success text-white mb-3">
-                        <i class="bi bi-geo-alt-fill me-1"></i>Ocupado / Asignado
+                        <i class="bi bi-geo-alt-fill me-1"></i>Asignado
                     </span>
 
                     <h4 class="fw-bold mb-3" style="color: #294268;">
@@ -35,7 +33,7 @@
 
                     <ul class="list-unstyled mb-0 text-secondary">
                         <li class="mb-2">
-                            <strong class="text-dark"><i class="bi bi-geo-alt me-2 text-muted"></i>Ubicación / Pabellón:</strong>
+                            <strong class="text-dark"><i class="bi bi-geo-alt me-2 text-muted"></i>Pabellón:</strong>
                             {{ stand.ubicacion }}
                         </li>
                         <li class="mb-2">
@@ -44,7 +42,7 @@
                         </li>
                         {% if artesano.nombre_marca %}
                         <li class="mb-2">
-                            <strong class="text-dark"><i class="bi bi-shop-window me-2 text-muted"></i>Marca / Emprendimiento:</strong>
+                            <strong class="text-dark"><i class="bi bi-shop-window me-2 text-muted"></i>Emprendimiento:</strong>
                             {{ artesano.nombre_marca }}
                         </li>
                         {% endif %}
@@ -52,7 +50,6 @@
                 </div>
             </div>
 
-            <!-- Indicaciones para Acreditación -->
             <div class="col-md-6">
                 <div class="p-4 rounded-3 h-100 bg-light" style="border: 1px solid #e2e8f0;">
                     <h5 class="fw-bold mb-3" style="color: #294268;">
@@ -62,16 +59,14 @@
                         El día del armado de la feria deberás presentarte en el acceso principal con tu <strong>DNI físico</strong> para retirar las credenciales de expositor y habilitar tu puesto.
                     </p>
                     <div class="p-3 rounded-2 bg-white border small text-dark mb-0" style="border-color: #e2e8f0 !important;">
-                        <i class="bi bi-geo-fill text-danger me-1"></i> <strong>Lugar:</strong> Predio Ferial Catamarca — Av. Fiesta del Poncho s/n
+                        <i class="bi bi-geo-fill text-danger me-1"></i> <strong>Lugar:</strong> Predio Ferial Catamarca
                     </div>
                 </div>
             </div>
         </div>
 
     {% else %}
-        <!-- CASO 2: Postulación - Stand pendiente -->
         <div class="text-center py-5 px-4 rounded-4 bg-white shadow-sm mx-auto" style="max-width: 680px; border: 1px solid #e2e8f0;">
-
             <div class="mb-3">
                 <span class="d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-2" style="background-color: #fff3cd; color: #d39e29; width: 75px; height: 75px;">
                     <i class="bi bi-clock-history fs-1"></i>
@@ -90,7 +85,6 @@
                 Tu solicitud como artesano fue aprobada, pero la administración aún no te ha asignado un número de stand en el predio. Por favor, consultá nuevamente en la semana.
             </p>
 
-            <!-- Resumen de Datos del Artesano (Ficha gris neutra) -->
             <div class="p-3 mx-auto rounded-3 text-start bg-light" style="max-width: 480px; border: 1px solid #e2e8f0;">
                 <small class="fw-bold d-block mb-2 text-uppercase text-muted" style="letter-spacing: 0.5px;">Titular Acreditado:</small>
                 <div class="small">

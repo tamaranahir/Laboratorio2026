@@ -1,0 +1,160 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Gestión de Categorías | Poncho Digital{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-lg-11">
+        <div class="card shadow border-0 rounded-4 overflow-hidden mb-5">
+
+            <div class="card-header text-white p-4 text-center" style="background-color: #294268;">
+                <h2 class="h3 fw-bold mb-1" style="color: #ebdcb9;">
+                    <i class="bi bi-tags-fill me-2"></i>
+                    {% if categoria_editar %}Editar Categoría{% else %}Gestión de Categorías{% endif %}
+                </h2>
+                <p class="small mb-0 text-white-50">Panel de Administración de Catálogo — Poncho Digital 2026</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5 bg-white">
+
+                <div class="alert border-0 rounded-3 p-3 mb-4 d-flex align-items-start gap-3" style="background-color: #f4f6f9; border-left: 4px solid #294268 !important;">
+                    <i class="bi bi-info-circle-fill fs-4 flex-shrink-0" style="color: #294268;"></i>
+                    <div class="small text-muted">
+                        <strong class="text-dark d-block mb-1">Administración de Categorías:</strong>
+                        Las categorías organizan la vitrina pública de artesanías. Registrá nuevas categorías o modificá las existentes según la clasificación requerida para los productos.
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="card border rounded-3 p-3 p-md-4 shadow-sm" style="border-color: #ebdcb9 !important; background-color: #faf8f5;">
+                            <h5 class="fw-bold mb-3" style="color: #294268;">
+                                {% if categoria_editar %}
+                                    <i class="bi bi-pencil-square me-1" style="color: #9a6f15;"></i>Modificar Categoría
+                                {% else %}
+                                    <i class="bi bi-plus-circle-fill me-1" style="color: #9a6f15;"></i>Nueva Categoría
+                                {% endif %}
+                            </h5>
+
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="{{ form.nombre.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                        Nombre de la Categoría:
+                                    </label>
+                                    {{ form.nombre }}
+                                    {% if form.nombre.errors %}
+                                        <div class="text-danger small mt-1">{{ form.nombre.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="{{ form.descripcion.id_for_label }}" class="form-label fw-semibold text-dark small">
+                                        Descripción:
+                                    </label>
+                                    {{ form.descripcion }}
+                                    {% if form.descripcion.errors %}
+                                        <div class="text-danger small mt-1">{{ form.descripcion.errors }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="d-grid gap-2 mt-4">
+                                    <button type="submit" class="btn text-white rounded-pill fw-bold shadow-sm" style="background-color: #294268;">
+                                        {% if categoria_editar %}
+                                            <i class="bi bi-check-lg me-1"></i>Guardar Cambios
+                                        {% else %}
+                                            <i class="bi bi-plus-lg me-1"></i>Crear Categoría
+                                        {% endif %}
+                                    </button>
+                                    {% if categoria_editar %}
+                                        <a href="{% url 'productos:gestion_categorias' %}" class="btn btn-outline-secondary rounded-pill btn-sm fw-semibold">
+                                            Cancelar Edición
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="card border rounded-3 shadow-sm overflow-hidden" style="border-color: #e2e8f0 !important;">
+                            <div class="card-header bg-light py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
+                                <span class="fw-bold small text-dark">
+                                    <i class="bi bi-list-ul me-1 text-muted"></i>Categorías Registradas
+                                </span>
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: #294268;">
+                                    Total: {{ categorias|length }}
+                                </span>
+                            </div>
+        <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col" class="ps-4">Nombre</th>
+                                            <th scope="col">Descripción</th>
+                                            <th scope="col" class="pe-4 text-end">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for cat in categorias %}
+                                            <tr>
+                                                <td class="ps-4 fw-bold" style="color: #294268;">
+                                                    <i class="bi bi-tag-fill me-1 small" style="color: #9a6f15;"></i>{{ cat.nombre }}
+                                                </td>
+                                                <td>
+                                                    <small class="text-muted">{{ cat.descripcion|default:"Sin descripción registrada." }}</small>
+                                                </td>
+                                                <td class="pe-4 text-end">
+                                                    <div class="btn-group" role="group">
+                                                        <a href="{% url 'productos:editar_categoria' cat.pk %}" class="btn btn-sm btn-outline-warning rounded-pill me-1 px-3" title="Editar">
+                                                            <i class="bi bi-pencil-fill me-1"></i>Editar
+                                                        </a>
+                                                        <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalEliminarCat{{ cat.pk }}">
+                                                            <i class="bi bi-trash-fill me-1"></i>Borrar
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        <div class="modal fade" id="modalEliminarCat{{ cat.pk }}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+                                                    <div class="modal-body text-center">
+                                                        <i class="bi bi-exclamation-triangle-fill text-danger fs-1 mb-2 d-block"></i>
+                                                        <h4 class="fw-bold text-dark">¿Eliminar categoría?</h4>
+                                                        <p class="text-muted small">
+                                                            Vas a borrar <strong>"{{ cat.nombre }}"</strong> del sistema. Esta acción no se puede deshacer.
+                                                        </p>
+                                                        <div class="d-flex gap-2 justify-content-center mt-4">
+                                                            <button type="button" class="btn btn-light rounded-pill px-4 fw-semibold" data-bs-dismiss="modal">Cancelar</button>
+                                                            <a href="{% url 'productos:eliminar_categoria' cat.pk %}" class="btn btn-danger rounded-pill px-4 fw-semibold shadow-sm">Sí, Eliminar</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="3" class="text-center text-muted py-4">
+                                                    <i class="bi bi-inbox fs-3 d-block mb-2 text-muted"></i>
+                                                    No hay categorías registradas en el sistema.
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div>
+
+            <div class="card-footer bg-light border-0 text-center py-3">
+                <small class="text-muted">Ministerio de Cultura y Turismo — Gobierno de la Provincia de Catamarca</small>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

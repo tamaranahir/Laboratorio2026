@@ -1,0 +1,345 @@
+{% extends 'base/base.html' %}
+{% block contenido %}
+<style>
+    body {
+        background-color: #f4f6f9;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .card-evaluar {
+        border: none;
+        border-radius: 1rem; /* rounded-4 */
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* shadow */
+        overflow: hidden;
+    }
+    .header-evaluar {
+        background-color: #294268;
+        color: #ffffff;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .titulo-evaluar {
+        color: #ebdcb9;
+        font-weight: 700; /* fw-bold */
+        margin-bottom: 0.25rem;
+    }
+    .alert-auditoria {
+        background-color: #f4f6f9;
+        border-left: 4px solid #294268 !important;
+        border-radius: 0.5rem; /* rounded-3 */
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .tabla-evaluar-header th {
+        background-color: #294268 !important;
+        color: #ebdcb9 !important;
+        font-weight: 600;
+        border: none;
+    }
+    .btn-descargar-pdf {
+        color: #ebdcb9;
+        border: 1px solid #ebdcb9;
+        background-color: transparent;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .btn-descargar-pdf:hover {
+        background-color: #ebdcb9;
+        color: #294268;
+    }
+    .btn-pill-rubro {
+        border-radius: 20px;
+        padding: 5px 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid #cbd5e1;
+        background-color: #ffffff;
+        color: #475569;
+        cursor: pointer;
+    }
+    .btn-pill-rubro.active {
+        background-color: #294268;
+        color: #ebdcb9;
+        border-color: #294268;
+    }
+    .badge-dorado {
+        background-color: #294268;
+        color: #ebdcb9;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 5px 10px;
+        border-radius: 12px;
+    }
+    @media print {
+        .no-imprimir { display: none !important; }
+        body { background-color: #ffffff; }
+        .card-evaluar { box-shadow: none !important; border: 1px solid #ccc !important; }
+    }
+</style>
+
+<div class="container py-2">
+    <div class="card card-evaluar mb-5">
+        <div class="header-evaluar no-imprimir">
+            <h2 class="h3 titulo-evaluar">
+                <i class="bi bi-bar-chart-line-fill me-2"></i>Reportes y Estadísticas Oficiales
+            </h2>
+            <p class="small mb-0 text-white-50">Portal Oficial del Ministerio de Cultura y Turismo de Catamarca — Poncho Digital 2026</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+
+            <div class="alert-auditoria border-0 no-imprimir">
+                <i class="bi bi-info-circle-fill fs-4 flex-shrink-0" style="color: #294268;"></i>
+                <div class="small text-muted">
+                    <strong class="text-dark d-block mb-1">Panel de Auditoría de Reportes:</strong>
+                    Consulte la información oficial de la feria. Puede filtrar por rubro o hacer clic en el botón <strong>PDF</strong> de cada reporte para generar e imprimir su documento individual.
+                </div>
+            </div>
+
+            <div class="card border rounded-3 overflow-hidden mb-5 no-imprimir">
+                <div class="bg-light p-3 border-bottom">
+                    <h5 class="m-0 fw-bold fs-6" style="color: #294268;">Listado de Reportes Disponibles</h5>
+                </div>
+                <table class="table table-hover m-0 align-middle">
+                    <thead class="tabla-evaluar-header">
+                        <tr>
+                            <th class="ps-3">Nombre del Reporte</th>
+                            <th class="text-end pe-3">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-3">
+                                <strong>1. Estado y Ocupación de Stands</strong><br>
+                                <small class="text-muted">Resumen ejecutivo y detalle completo de la asignación de puestos feriales.</small>
+                            </td>
+                            <td class="text-end pe-3">
+                                <button onclick="imprimirReporte('reporte-stands', 'Reporte de Ocupacion de Stands')" class="btn btn-sm" style="background-color: #294268; color: #ebdcb9;">PDF</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ps-3">
+                                <strong>2. Artesanos y Productos por Rubro</strong><br>
+                                <small class="text-muted">Estadísticas por especialidad artesanal y catálogo de productos publicados.</small>
+                            </td>
+                            <td class="text-end pe-3">
+                                <button onclick="imprimirReporte('reporte-rubros', 'Reporte de Artesanos y Productos por Rubro')" class="btn btn-sm" style="background-color: #294268; color: #ebdcb9;">PDF</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="reporte-stands" class="mb-5">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                    <h3 class="h5 fw-bold m-0" style="color: #294268;">1. Reporte de Estado y Ocupación de Stands</h3>
+                </div>
+
+                <h6 class="fw-bold mb-2 text-secondary">Resumen Ejecutivo del Predio Ferial</h6>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered m-0 align-middle text-center">
+                        <thead class="tabla-evaluar-header">
+                            <tr>
+                                <th>Capacidad Total</th>
+                                <th>Stands Ocupados</th>
+                                <th>Stands Disponibles</th>
+                                <th>Tasa de Ocupación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold fs-5">{{ total_stands }}</td>
+                                <td class="fw-bold fs-5 text-success">{{ stands_ocupados }}</td>
+                                <td class="fw-bold fs-5 text-warning text-darken-3">{{ stands_disponibles }}</td>
+                                <td class="fw-bold fs-5 text-primary">{{ porcentaje_ocupacion }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h6 class="fw-bold mb-2 text-secondary">Detalle Puesto por Puesto</h6>
+                <div class="table-responsive border rounded-3 overflow-hidden">
+                    <table class="table table-sm table-striped m-0 align-middle">
+                        <thead class="tabla-evaluar-header">
+                            <tr>
+                                <th class="ps-3 text-center">Puesto N°</th>
+                                <th>Pabellón / Ubicación</th>
+                                <th class="text-center">Estado</th>
+                                <th>Artesano Asignado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stand in listado_stands %}
+                            <tr>
+                                <td class="ps-3 text-center fw-bold">{{ stand.numero }}</td>
+                                <td>{{ stand.ubicacion }}</td>
+                                <td class="text-center">
+                                    {% if stand.artesano %}
+                                        <span class="badge bg-success">Ocupado</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Disponible</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if stand.artesano %}
+                                        {{ stand.artesano.nombre_completo }}
+                                    {% else %}
+                                        <span class="text-muted fst-italic">-- Sin asignar --</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="4" class="text-center text-muted p-3">No hay puestos registrados.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="reporte-rubros">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+                    <h3 class="h5 fw-bold m-0" style="color: #294268;">2. Detalle de Artesanos y Productos por Rubro</h3>
+                </div>
+
+                <div class="p-3 bg-light rounded-3 mb-4 d-flex flex-wrap align-items-center gap-2 no-imprimir">
+                    <span class="fw-bold small text-secondary me-2">Filtrar Rubro:</span>
+                    <div class="d-flex flex-wrap gap-2" id="contenedor-pills">
+                        <button type="button" class="btn-pill-rubro active" onclick="filtrarPill('TODOS', this)">Todos</button>
+                        {% for item in artesanos_por_rubro %}
+                            <button type="button" class="btn-pill-rubro" onclick="filtrarPill('{% if item.rubro__nombre %}{{ item.rubro__nombre }}{% else %}{{ item.rubro }}{% endif %}', this)">
+                                {% if item.rubro__nombre %}{{ item.rubro__nombre }}{% else %}{{ item.rubro }}{% endif %}
+                            </button>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 mb-4">
+                        <div class="border rounded-3 overflow-hidden">
+                            <div class="bg-light p-2 border-bottom">
+                                <strong class="small text-secondary">Total de Artesanos por Rubro</strong>
+                            </div>
+                            <table class="table table-sm table-striped m-0 align-middle" id="tabla-rubros">
+                                <thead class="tabla-evaluar-header">
+                                    <tr>
+                                        <th class="ps-3">Rubro</th>
+                                        <th class="text-center">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in artesanos_por_rubro %}
+                                    <tr data-rubro="{% if item.rubro__nombre %}{{ item.rubro__nombre }}{% else %}{{ item.rubro }}{% endif %}">
+                                        <td class="ps-3 fw-semibold">
+                                            {% if item.rubro__nombre %}{{ item.rubro__nombre }}{% else %}{{ item.rubro }}{% endif %}
+                                        </td>
+                                        <td class="text-center fw-bold text-primary">{{ item.total }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="2" class="text-muted p-3 text-center">No hay datos registrados.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 mb-4">
+                        <div class="border rounded-3 overflow-hidden">
+                            <div class="bg-light p-2 border-bottom">
+                                <strong class="small text-secondary">Productos Publicados por Artesano</strong>
+                            </div>
+                            <table class="table table-sm table-hover m-0 align-middle" id="tabla-artesanos-productos">
+                                <thead class="tabla-evaluar-header">
+                                    <tr>
+                                        <th class="ps-3">Nombre del Artesano</th>
+                                        <th>Rubro</th>
+                                        <th class="text-center">Cant. Productos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for artesano in productos_por_artesano %}
+                                    <tr data-rubro="{{ artesano.rubro }}">
+                                        <td class="ps-3 fw-semibold">{{ artesano.nombre_completo }}</td>
+                                        <td><span class="badge bg-light text-dark border">{{ artesano.rubro }}</span></td>
+                                        <td class="text-center">
+                                            <span class="badge badge-dorado">{{ artesano.total_productos }}</span>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="3" class="text-muted p-3 text-center">No hay artesanos aprobados.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+function filtrarPill(rubroSeleccionado, botonClickeado) {
+    var botones = document.querySelectorAll('#contenedor-pills .btn-pill-rubro');
+    botones.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    botonClickeado.classList.add('active');
+
+    var filasRubros = document.querySelectorAll('#tabla-rubros tbody tr');
+    filasRubros.forEach(function(fila) {
+        var rubroFila = fila.getAttribute('data-rubro');
+        if (rubroSeleccionado === 'TODOS' || rubroFila === rubroSeleccionado) {
+            fila.style.display = '';
+        } else {
+            fila.style.display = 'none';
+        }
+    });
+
+    var filasProductos = document.querySelectorAll('#tabla-artesanos-productos tbody tr');
+    filasProductos.forEach(function(fila) {
+        var rubroFila = fila.getAttribute('data-rubro');
+        if (rubroSeleccionado === 'TODOS' || rubroFila === rubroSeleccionado) {
+            fila.style.display = '';
+        } else {
+            fila.style.display = 'none';
+        }
+    });
+}
+
+function imprimirReporte(idElemento, titulo) {
+    var contenido = document.getElementById(idElemento).cloneNode(true);
+
+    var elementosNoImprimir = contenido.querySelectorAll('.no-imprimir');
+    elementosNoImprimir.forEach(function(el) { el.remove(); });
+
+    var ventana = window.open('', '', 'height=750,width=950');
+    ventana.document.write('<html><head><title>' + titulo + '</title>');
+    ventana.document.write('<link rel="stylesheet" href="[suspicious link removed]">');
+    ventana.document.write('<style>');
+    ventana.document.write('body { font-family: system-ui, sans-serif; padding: 25px; background-color: #ffffff; }');
+    ventana.document.write('.titulo-print { color: #294268; border-bottom: 2px solid #ebdcb9; padding-bottom: 8px; margin-bottom: 20px; font-weight: bold; }');
+    ventana.document.write('.tabla-evaluar-header th { background-color: #294268 !important; color: #ebdcb9 !important; font-size: 13px; }');
+    ventana.document.write('.badge-dorado { background-color: #294268; color: #ebdcb9; padding: 3px 8px; border-radius: 10px; font-weight: bold; }');
+    ventana.document.write('</style>');
+    ventana.document.write('</head><body>');
+    ventana.document.write('<h2 class="titulo-print">' + titulo + ' - Poncho Digital</h2>');
+    ventana.document.write(contenido.innerHTML);
+    ventana.document.write('</body></html>');
+
+    ventana.document.close();
+    ventana.focus();
+
+    setTimeout(function() {
+        ventana.print();
+        ventana.close();
+    }, 450);
+}
+</script>
+{% endblock %}

@@ -6,8 +6,6 @@
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
         <div class="card shadow border-0 rounded-4 my-4 overflow-hidden">
-
-            <!-- Cabecera Institucional Azul Oscuro -->
             <div class="card-header text-white text-center py-3" style="background-color: #294268;">
                 <h4 class="mb-0 fw-bold" style="color: #ebdcb9;">
                     <i class="bi bi-person-circle me-2"></i>Iniciar sesión
@@ -15,24 +13,13 @@
             </div>
 
             <div class="card-body p-4 text-center">
-                <p class="text-muted small mb-4">Ingresá tu usuario y contraseña para acceder al sistema</p>
-
-                <!-- Alerta si las credenciales son incorrectas -->
-                {% if form.errors %}
-                    <div class="alert alert-danger alert-dismissible fade show text-start small mb-3" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                        Usuario o contraseña incorrectos. Por favor, verificá tus datos.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endif %}
-
-                <!-- Formulario -->
-                <form method="post" action="">
+                <p class="text-muted small mb-4">Ingresá tu DNI y contraseña para acceder al sistema</p>
+                <form method="post" action="{% url 'usuario:login' %}">
                     {% csrf_token %}
 
                     <div class="form-floating mb-3 text-start">
                         <input type="text" name="username" class="form-control" id="id_username" placeholder="Usuario" required autofocus>
-                        <label for="id_username"><i class="bi bi-person me-1"></i>Nombre de Usuario</label>
+                        <label for="id_username"><i class="bi bi-person me-1"></i>DNI / Usuario</label>
                     </div>
 
                     <div class="form-floating mb-4 text-start">
@@ -43,6 +30,15 @@
                     <button type="submit" class="btn w-100 py-2 fw-bold text-white rounded-pill shadow-sm" style="background-color: #294268;">
                         <i class="bi bi-box-arrow-in-right me-1"></i>Ingresar
                     </button>
+
+                    <div class="text-center mt-3">
+                         <p class="small text-muted">¿No tenés una cuenta?
+                            <a href="{% url 'usuario:registro' %}" class="fw-bold text-decoration-none" style="color: #294268;">
+                               Registrate como Visitante acá
+                            </a>
+                         </p>
+                    </div>
+
                 </form>
 
             </div>

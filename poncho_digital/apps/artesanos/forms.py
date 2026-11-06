@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Artesano, Stand
+from .models import Artesano, Stand, Rubro, Consulta
+
+# ARTESANO
 
 class ArtesanoForm(forms.ModelForm):
     class Meta:
@@ -97,20 +99,24 @@ class ArtesanoForm(forms.ModelForm):
                 raise ValidationError("Ingrese un número de teléfono válido (entre 8 y 15 dígitos).")
         return telefono
 
+# ADMINISTRADOR
+
 # Formulario de asignación
 class StandForm(forms.ModelForm):
     class Meta:
         model = Stand
-        fields = ['artesano', 'estado']
+        fields = ['artesano']
         widgets = {
+            'numero': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ej: 101'}),
+            'ubicacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Pabellón A - Textiles'}),
             'artesano': forms.Select(attrs={'class': 'form-select'}),
-            'estado': forms.Select(attrs={'class': 'form-select'}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Mostrar únicamente artesanos con postulación aprobada
         self.fields['artesano'].queryset = Artesano.objects.filter(estado_postulacion='aprobado')
-        self.fields['artesano'].empty_label = "-- Seleccionar Artesano Aprobado --"
+        self.fields['artesano'].empty_label = "-- Seleccionar Artesano --"
 
     def clean_artesano(self):
         artesano = self.cleaned_data.get('artesano')
@@ -121,3 +127,39 @@ class StandForm(forms.ModelForm):
             if query.exists():
                 raise ValidationError("Este artesano ya tiene un stand asignado en la feria.")
         return artesano
+
+class RubroForm(forms.ModelForm):
+    class Meta:
+        model = Rubro
+        fields = ['nombre', 'descripcion']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej: Textil, Gastronomía'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Descripción del rubro'}),
+        }
+
+# VISITANTE
+
+class ConsultaForm(forms.ModelForm):
+    class Meta:
+        model = Consulta
+        fields = ['asunto', 'mensaje']
+        widgets = {
+            'asunto': forms.Select(attrs={'class': 'form-select'}),
+            'mensaje': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Escriba aquí su duda sobre precios, stock, personalización...'
+            }),
+        }
+
+class RespuestaForm(forms.ModelForm):
+    class Meta:
+        model = Consulta
+        fields = ['respuesta']
+        widgets = {
+            'respuesta': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Escriba aquí la respuesta oficial para el usuario...'
+            }),
+        }
